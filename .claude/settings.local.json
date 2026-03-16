@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(git clone:*)",
+      "Bash(cd D:/mbfczzzz/biliup && git init && git remote add origin https://github.com/biliup/biliup.git && git fetch origin && git checkout -b main origin/main 2>&1)",
+      "Bash(cd D:/mbfczzzz/biliup && git checkout -b master origin/master 2>&1)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(cd:*)",
+      "Bash(grep:*)",
+      "Bash(go:*)",
+      "Bash(where go)",
+      "Read(//usr/local/go/**)",
+      "Read(//c/Go/**)",
+      "Read(//d/Go/**)"
+    ]
+  }
+}
