@@ -7,6 +7,22 @@
           <span class="icon">📺</span>
           <span>录播管理</span>
         </router-link>
+        <router-link to="/templates" class="nav-item">
+          <span class="icon">📤</span>
+          <span>上传模板</span>
+        </router-link>
+        <router-link to="/videos" class="nav-item">
+          <span class="icon">📹</span>
+          <span>视频列表</span>
+        </router-link>
+        <router-link to="/files" class="nav-item">
+          <span class="icon">📁</span>
+          <span>文件管理</span>
+        </router-link>
+        <router-link to="/users" class="nav-item">
+          <span class="icon">👥</span>
+          <span>账号管理</span>
+        </router-link>
         <router-link to="/config" class="nav-item">
           <span class="icon">⚙️</span>
           <span>系统配置</span>
