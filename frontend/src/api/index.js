@@ -18,10 +18,10 @@ export default {
   updateConfig: (data) => api.put('/configuration', data),
 
   // 上传模板
-  getTemplates: () => api.get('/upload_streamers'),
-  addTemplate: (data) => api.post('/upload_streamers', data),
-  getTemplate: (id) => api.get(`/upload_streamers/${id}`),
-  deleteTemplate: (id) => api.delete(`/upload_streamers/${id}`),
+  getTemplates: () => api.get('/upload/streamers'),
+  addTemplate: (data) => api.post('/upload/streamers', data),
+  getTemplate: (id) => api.get(`/upload/streamers/${id}`),
+  deleteTemplate: (id) => api.delete(`/upload/streamers/${id}`),
 
   // 用户管理
   getUsers: () => api.get('/users'),
@@ -29,14 +29,14 @@ export default {
   deleteUser: (id) => api.delete(`/users/${id}`),
 
   // 登录
-  getQrcode: () => api.get('/qrcode'),
+  getQrcode: () => api.get('/get_qrcode'),
   loginByQrcode: (data) => api.post('/login_by_qrcode', data),
 
   // 视频
   getVideos: () => api.get('/videos'),
 
   // 文件
-  getFiles: (id) => api.get(`/streamers/${id}/files`),
+  getFiles: (id) => api.get(`/streamer-info/files/${id}`),
 
   // 上传
   postUpload: (data) => api.post('/uploads', data),
