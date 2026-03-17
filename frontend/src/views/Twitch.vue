@@ -1,37 +1,49 @@
 <template>
-  <div class="twitch">
-    <h1>Twitch 录播</h1>
-    <button @click="showAdd = true">添加频道</button>
+  <div class="page">
+    <div class="header">
+      <h1>录播管理</h1>
+      <button class="btn-primary" @click="showAdd = true">+ 添加频道</button>
+    </div>
 
-    <table v-if="channels.length">
-      <thead>
-        <tr>
-          <th>频道名</th>
-          <th>URL</th>
-          <th>状态</th>
-          <th>操作</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="c in channels" :key="c.id">
-          <td>{{ c.name }}</td>
-          <td>{{ c.url }}</td>
-          <td>{{ c.status }}</td>
-          <td>
-            <button @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
-            <button @click="del(c.id)">删除</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="card" v-if="channels.length">
+      <table>
+        <thead>
+          <tr>
+            <th>频道名</th>
+            <th>URL</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="c in channels" :key="c.id">
+            <td><strong>{{ c.name }}</strong></td>
+            <td class="url">{{ c.url }}</td>
+            <td><span :class="'status ' + c.status">{{ c.status }}</span></td>
+            <td>
+              <button class="btn-sm" @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
+              <button class="btn-sm btn-danger" @click="del(c.id)">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <div v-if="showAdd" class="modal">
+    <div v-if="showAdd" class="modal" @click.self="showAdd = false">
       <div class="modal-content">
-        <h2>添加 Twitch 频道</h2>
-        <input v-model="form.name" placeholder="频道名">
-        <input v-model="form.url" placeholder="Twitch URL">
-        <button @click="add">确定</button>
-        <button @click="showAdd = false">取消</button>
+        <h2>添加频道</h2>
+        <div class="form-group">
+          <label>频道名</label>
+          <input v-model="form.name" placeholder="输入频道名称">
+        </div>
+        <div class="form-group">
+          <label>Twitch URL</label>
+          <input v-model="form.url" placeholder="https://www.twitch.tv/...">
+        </div>
+        <div class="modal-actions">
+          <button class="btn-primary" @click="add">确定</button>
+          <button class="btn-secondary" @click="showAdd = false">取消</button>
+        </div>
       </div>
     </div>
   </div>
@@ -73,12 +85,128 @@ onMounted(load)
 </script>
 
 <style scoped>
-.twitch { padding: 20px; }
-button { margin: 10px 5px; padding: 8px 16px; cursor: pointer; }
-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-th { background: #9146ff; color: white; }
-.modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
-.modal-content { background: white; padding: 30px; border-radius: 8px; }
-.modal-content input { display: block; width: 300px; margin: 10px 0; padding: 8px; }
+.page { padding: 32px; }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+h1 { font-size: 28px; font-weight: 600; color: #fff; }
+.card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+th {
+  background: #252525;
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #a0a0a0;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+td {
+  padding: 16px;
+  border-top: 1px solid #2a2a2a;
+  color: #e0e0e0;
+}
+.url { color: #6366f1; font-size: 14px; }
+.status {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.status.live { background: #10b981; color: #fff; }
+.status.offline { background: #374151; color: #9ca3af; }
+.btn-primary {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: #4f46e5; }
+.btn-secondary {
+  background: #374151;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.btn-sm {
+  background: #2a2a2a;
+  color: #e0e0e0;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 8px;
+}
+.btn-sm:hover { background: #374151; }
+.btn-danger { background: #dc2626; color: #fff; }
+.btn-danger:hover { background: #b91c1c; }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #1a1a1a;
+  padding: 32px;
+  border-radius: 16px;
+  width: 480px;
+  border: 1px solid #2a2a2a;
+}
+.modal-content h2 {
+  margin-bottom: 24px;
+  color: #fff;
+  font-size: 20px;
+}
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #a0a0a0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  color: #e0e0e0;
+  font-size: 14px;
+}
+.form-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+.modal-actions button { flex: 1; }
 </style>

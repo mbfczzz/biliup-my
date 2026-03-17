@@ -6,8 +6,8 @@ build-backend = "maturin"
 # "extension-module" tells pyo3 we want to build an extension module (skips linking against libpython.so)
 features = ["pyo3/extension-module"]
 # Include additional files
-#include = [ "biliup/web/public/**/*" ]
-#data = "biliup/web/public"
+#include = [ "scarecrow/web/public/**/*" ]
+#data = "scarecrow/web/public"
 python-packages = ["scarecrow"]
 manifest-path = "crates/stream-gears/Cargo.toml"
 
@@ -17,7 +17,7 @@ readme = "README.md"
 authors = [{ name = "ForgQi" }]
 description = "稻草人的SCARECROW — Twitch stream recorder"
 keywords = ["twitch recorder scarecrow"]
-urls = { Homepage = "https://github.com/ForgQi/bilibiliupload" }
+urls = { Homepage = "https://github.com/scarecrow/scarecrow" }
 requires-python = ">= 3.9"
 dependencies = [
     "psutil >= 5.4.6",
@@ -48,11 +48,11 @@ scarecrow = "scarecrow.__main__:arg_parser"
 #include-package-data = false
 
 #[tool.setuptools.package-data]
-#biliup = ["common/*.ini", "web/public/**", "web/public/build/*", "database/migration/*", "Danmaku/douyin_util/webmssdk.js"]
+#scarecrow = ["common/*.ini", "web/public/**", "web/public/build/*", "database/migration/*", "Danmaku/douyin_util/webmssdk.js"]
 #
 #[tool.setuptools.packages.find]
-#include = ["biliup*"]
+#include = ["scarecrow*"]
 #namespaces = false
 #
 #[tool.setuptools.dynamic]
-#version = { attr = "biliup.__version__" }
+#version = { attr = "scarecrow.__version__" }

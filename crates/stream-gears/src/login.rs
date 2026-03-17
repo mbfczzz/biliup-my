@@ -1,10 +1,10 @@
-use biliup::uploader::bilibili::BiliBili;
-use biliup::uploader::credential::Credential;
-use biliup_cli::server::errors::{AppError, AppResult};
+use scarecrow_core::uploader::bilibili::BiliBili;
+use scarecrow_core::uploader::credential::Credential;
+use scarecrow_cli::server::errors::{AppError, AppResult};
 use error_stack::ResultExt;
 
 pub async fn login_by_cookies(file: &str, proxy: Option<&str>) -> AppResult<BiliBili> {
-    let login_info = biliup::uploader::credential::login_by_cookies(file, proxy)
+    let login_info = scarecrow_core::uploader::credential::login_by_cookies(file, proxy)
         .await
         .change_context_lazy(|| AppError::Unknown)?;
     Ok(login_info)

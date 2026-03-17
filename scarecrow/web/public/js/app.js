@@ -319,7 +319,7 @@ createApp({
       const text = logLines.value.map(l => l.text).join('\n');
       const a = document.createElement('a');
       a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(text);
-      a.download = 'biliup-download.log';
+      a.download = 'scarecrow-download.log';
       a.click();
     }
 

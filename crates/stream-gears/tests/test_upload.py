@@ -17,8 +17,8 @@ stream_gears 上传功能测试
 import stream_gears
 from typing import List, Dict, Any
 
-video_path = ["E:\\Projects\\biliup\\target\\x86_64-pc-windows-msvc\\debug\\test.flv"]
-cookie_file = "E:\\Projects\\biliup\\target\\x86_64-pc-windows-msvc\\debug\\cookies.json"
+video_path = ["E:\\Projects\\\\scarecrow\\\\target\\x86_64-pc-windows-msvc\\debug\\test.flv"]
+cookie_file = "E:\\Projects\\\\scarecrow\\\\target\\x86_64-pc-windows-msvc\\debug\\cookies.json"
 # submit_api = "BCutAndroid"
 
 if __name__ == '__main__':

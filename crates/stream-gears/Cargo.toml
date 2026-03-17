@@ -29,8 +29,8 @@ tracing-appender = { workspace = true }
 thiserror = { workspace = true }
 futures = { workspace = true }
 async-channel = { version = "2.5.0" }
-biliup = { path = "../biliup"}
-biliup-cli = { path = "../biliup-cli"}
+scarecrow-core = { path = "../scarecrow-core"}
+scarecrow-cli = { path = "../scarecrow-cli"}
 url = { workspace = true }
 time = { workspace = true }
 chrono = { workspace = true }

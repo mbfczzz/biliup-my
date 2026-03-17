@@ -33,13 +33,13 @@ bili.cookie.json
 archive.txt
 /node_modules
 watch_process.pid
-biliup/**/public
+scarecrow/**/public
 *.xml
 !package-lock.json
 qrcode.png
 *.log
 /*.ts
-/biliup/stream-gears/
+/scarecrow/stream-gears/
 data/
 .next
 out

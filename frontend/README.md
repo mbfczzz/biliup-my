@@ -3,7 +3,7 @@
 ## 项目结构
 
 ```
-biliup/
+scarecrow/
 ├── frontend/          # Vue 3 前端
 ├── crates/           # Rust 后端
 └── scarecrow/        # Python CLI 工具

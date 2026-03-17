@@ -1,7 +1,7 @@
 [workspace]
 members = [
-    "crates/biliup",
-    "crates/biliup-cli",
+    "crates/scarecrow-core",
+    "crates/scarecrow-cli",
     "crates/stream-gears",
 ]
 resolver = "3"

@@ -13,7 +13,11 @@
       "Bash(where go)",
       "Read(//usr/local/go/**)",
       "Read(//c/Go/**)",
-      "Read(//d/Go/**)"
+      "Read(//d/Go/**)",
+      "Bash(find . -type f \\\\\\(-name *.pyc -o -name *.pyo -o -name __pycache__ -o -name *.log -o -name *.tmp -o -name .DS_Store -o -name Thumbs.db \\\\\\))",
+      "Bash(mv biliup:*)",
+      "Bash(mv biliup-cli:*)",
+      "Bash(git add:*)"
     ]
   }
 }

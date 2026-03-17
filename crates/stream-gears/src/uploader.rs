@@ -1,10 +1,10 @@
-use biliup::uploader::bilibili::{Credit, ResponseData, Studio};
+use scarecrow_core::uploader::bilibili::{Credit, ResponseData, Studio};
 use pyo3::prelude::*;
 use pyo3::pyclass;
 
-use biliup_cli::server::common;
-use biliup_cli::server::common::upload::submit_to_bilibili;
-use biliup_cli::server::errors::{AppError, AppResult};
+use scarecrow_cli::server::common;
+use scarecrow_cli::server::common::upload::submit_to_bilibili;
+use scarecrow_cli::server::errors::{AppError, AppResult};
 use bon::Builder;
 use error_stack::ResultExt;
 use std::collections::HashMap;
@@ -30,10 +30,10 @@ pub enum UploadLine {
     Alia,
 }
 
-impl From<UploadLine> for biliup_cli::UploadLine {
+impl From<UploadLine> for scarecrow_cli::UploadLine {
     fn from(val: UploadLine) -> Self {
         use UploadLine as P;
-        use biliup_cli::UploadLine as C;
+        use scarecrow_cli::UploadLine as C;
         match val {
             P::Bldsa => C::Bldsa,
             P::Cnbldsa => C::Cnbldsa,

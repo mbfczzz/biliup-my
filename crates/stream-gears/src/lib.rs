@@ -9,20 +9,20 @@ use uploader::{PyCredit, StudioPre};
 
 use crate::uploader::UploadLine;
 use axum::http::HeaderMap;
-use biliup::credential::Credential;
-use biliup::downloader::extractor::CallbackFn;
-use biliup::downloader::util::{LifecycleFile, Segmentable};
-use biliup::downloader::{hls, httpflv};
+use scarecrow_core::credential::Credential;
+use scarecrow_core::downloader::extractor::CallbackFn;
+use scarecrow_core::downloader::util::{LifecycleFile, Segmentable};
+use scarecrow_core::downloader::{hls, httpflv};
 use pyo3::types::{PyList, PyType};
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::time::Duration;
 use tracing::{debug, error, info};
 
-use biliup::client::StatelessClient;
-use biliup::downloader::flv_parser::header;
-use biliup::downloader::httpflv::Connection;
-use biliup_cli::server::common::construct_headers;
+use scarecrow_core::client::StatelessClient;
+use scarecrow_core::downloader::flv_parser::header;
+use scarecrow_core::downloader::httpflv::Connection;
+use scarecrow_cli::server::common::construct_headers;
 use pyo3::exceptions::PyRuntimeError;
 use tracing_subscriber::layer::SubscriberExt;
 
@@ -238,7 +238,7 @@ fn login_by_qrcode(ret: String, proxy: Option<String>) -> PyResult<String> {
             .login_by_qrcode(serde_json::from_str(&ret).unwrap())
             .await?;
         let res = serde_json::to_string_pretty(&info).unwrap();
-        Ok::<_, biliup::error::Kind>(res)
+        Ok::<_, scarecrow_core::error::Kind>(res)
     })
     .map_err(|err| pyo3::exceptions::PyRuntimeError::new_err(format!("{:#?}", err)))
 }

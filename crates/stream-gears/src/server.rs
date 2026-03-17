@@ -1,22 +1,22 @@
 use crate::danmaku::PyDanmakuClient;
 use async_trait::async_trait;
-use biliup::uploader::util::SubmitOption;
-use biliup_cli::cli::{Cli, Commands};
-use biliup_cli::downloader::generate_json;
-use biliup_cli::server::app::ApplicationController;
-use biliup_cli::server::common::util::media_ext_from_url;
-use biliup_cli::server::config::Config;
-use biliup_cli::server::core::download_manager::DownloadManager;
-use biliup_cli::server::core::downloader::DanmakuClient;
-use biliup_cli::server::core::plugin::{DownloadBase, DownloadPlugin, StreamInfoExt, StreamStatus};
-use biliup_cli::server::errors::{AppError, AppResult};
-use biliup_cli::server::infrastructure::connection_pool::ConnectionManager;
-use biliup_cli::server::infrastructure::context::{PluginContext, Worker};
-use biliup_cli::server::infrastructure::models::StreamerInfo;
-use biliup_cli::server::infrastructure::repositories;
-use biliup_cli::server::infrastructure::repositories::get_upload_config;
-use biliup_cli::server::infrastructure::service_register::ServiceRegister;
-use biliup_cli::uploader::{append, list, login, renew, show, upload_by_command, upload_by_config};
+use scarecrow_core::uploader::util::SubmitOption;
+use scarecrow_cli::cli::{Cli, Commands};
+use scarecrow_cli::downloader::generate_json;
+use scarecrow_cli::server::app::ApplicationController;
+use scarecrow_cli::server::common::util::media_ext_from_url;
+use scarecrow_cli::server::config::Config;
+use scarecrow_cli::server::core::download_manager::DownloadManager;
+use scarecrow_cli::server::core::downloader::DanmakuClient;
+use scarecrow_cli::server::core::plugin::{DownloadBase, DownloadPlugin, StreamInfoExt, StreamStatus};
+use scarecrow_cli::server::errors::{AppError, AppResult};
+use scarecrow_cli::server::infrastructure::connection_pool::ConnectionManager;
+use scarecrow_cli::server::infrastructure::context::{PluginContext, Worker};
+use scarecrow_cli::server::infrastructure::models::StreamerInfo;
+use scarecrow_cli::server::infrastructure::repositories;
+use scarecrow_cli::server::infrastructure::repositories::get_upload_config;
+use scarecrow_cli::server::infrastructure::service_register::ServiceRegister;
+use scarecrow_cli::uploader::{append, list, login, renew, show, upload_by_command, upload_by_config};
 use chrono::Utc;
 use clap::Parser;
 use error_stack::{Report, ResultExt};
@@ -92,9 +92,9 @@ impl PyDownloader {
             match tokio::task::spawn_blocking(move || {
                 Python::attach(
                     |py| -> PyResult<Option<(StreamInfoExt, Option<Py<PyAny>>)>> {
-                        // 从 biliup.util 获取 loop（按你项目里真实的名字来取）
+                        // 从 scarecrow.util 获取 loop（按你项目里真实的名字来取）
                         let util = PyModule::import(py, "scarecrow.common.util")?;
-                        // 下面两行二选一（取决于 biliup.util 的 API）：
+                        // 下面两行二选一（取决于 scarecrow.util 的 API）：
                         // let loop_obj: Py<PyAny> = util.getattr("loop")?.into_py(py);
                         // 或：
                         // let loop_obj: Py<PyAny> = util.call_method0("get_loop")?.into_py(py);
@@ -259,7 +259,7 @@ pub fn from_py() -> PyResult<Vec<PyPlugin>> {
             })
             .collect::<PyResult<_>>()
         // 基类 DownloadBase
-        // py.import("biliup.engine.download")?.getattr("DownloadBase")
+        // py.import("scarecrow.engine.download")?.getattr("DownloadBase")
     })?;
     // println!("类属性值: {:?}", class_attr);
 
@@ -411,7 +411,7 @@ pub(crate) async fn _main(args: &[String]) -> AppResult<()> {
     let file_appender = tracing_appender::rolling::RollingFileAppender::builder()
         .rotation(Rotation::DAILY) // rotate log files once every hour
         .rotation(Rotation::NEVER) // rotate log files once every hour
-        .filename_prefix("biliup") // log file names will be prefixed with `myapp.`
+        .filename_prefix("scarecrow") // log file names will be prefixed with `myapp.`
         .filename_prefix("download") // log file names will be prefixed with `myapp.`
         .filename_suffix("log") // log file names will be suffixed with `.log`
         // .max_log_files(3)
@@ -506,7 +506,7 @@ pub(crate) async fn _main(args: &[String]) -> AppResult<()> {
             output,
             split_size,
             split_time,
-        } => biliup_cli::downloader::download(&url, output, split_size, split_time).await?,
+        } => scarecrow_cli::downloader::download(&url, output, split_size, split_time).await?,
         Commands::Server { bind, port, auth } => {
             info!(
                 "environment loaded and configuration parsed, initializing Postgres connection and running migrations..."
@@ -561,7 +561,7 @@ pub(crate) async fn _main(args: &[String]) -> AppResult<()> {
             ApplicationController::serve(&addr, auth, service_register)
                 .await
                 .attach("could not initialize application routes")?;
-            // biliup_cli::run((&bind, port)).await?
+            // scarecrow_cli::run((&bind, port)).await?
         }
         Commands::List {
             is_pubing,

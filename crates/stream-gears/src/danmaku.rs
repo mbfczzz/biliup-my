@@ -1,6 +1,6 @@
 use async_trait::async_trait;
-use biliup_cli::server::core::downloader::DanmakuClient;
-use biliup_cli::server::errors::{AppError, AppResult};
+use scarecrow_cli::server::core::downloader::DanmakuClient;
+use scarecrow_cli::server::errors::{AppError, AppResult};
 use error_stack::ResultExt;
 use pyo3::prelude::*;
 use std::sync::Arc;

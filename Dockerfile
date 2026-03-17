@@ -1,51 +1,51 @@
-# Build biliup's web-ui
+# Build scarecrow's web-ui
 FROM node:lts AS webui-builder
-ARG repo_url=https://github.com/biliup/biliup
+ARG repo_url=https://github.com/scarecrow/scarecrow
 ARG branch_name=master
 
-COPY . /biliup
+COPY . /scarecrow
 
 RUN set -eux; \
 	\
-	if [ ! -f /biliup/biliup.spec ]; then \
-	rm -rf /biliup; \
-	git clone --depth 1 --branch "$branch_name" "$repo_url" /biliup; \
+	if [ ! -f /scarecrow/scarecrow.spec ]; then \
+	rm -rf /scarecrow; \
+	git clone --depth 1 --branch "$branch_name" "$repo_url" /scarecrow; \
 	fi;
 
-WORKDIR /biliup
+WORKDIR /scarecrow
 
 RUN set -eux; \
 	npm install; \
 	npm run build;
 
 
-# Build biliup's python wheel
+# Build scarecrow's python wheel
 FROM rust:latest AS wheel-builder
-ARG repo_url=https://github.com/biliup/biliup
+ARG repo_url=https://github.com/scarecrow/scarecrow
 ARG branch_name=master
 
-COPY . /biliup
+COPY . /scarecrow
 
 RUN set -eux; \
 	\
 	apt-get update; \
 	apt-get install -y --no-install-recommends python3-pip g++; \
 	pip3 install maturin --break-system-packages; \
-	if [ ! -f /biliup/biliup.spec ]; then \
-	rm -rf /biliup; \
-	git clone --depth 1 --branch "$branch_name" "$repo_url" /biliup; \
+	if [ ! -f /scarecrow/scarecrow.spec ]; then \
+	rm -rf /scarecrow; \
+	git clone --depth 1 --branch "$branch_name" "$repo_url" /scarecrow; \
 	fi;
 
-COPY --from=webui-builder /biliup/out /biliup/out
+COPY --from=webui-builder /scarecrow/out /scarecrow/out
 
-WORKDIR /biliup
+WORKDIR /scarecrow
 
 RUN set -eux; \
 	maturin build --release;
 
 
-# Deploy Biliup
-FROM python:3.13-slim AS biliup
+# Deploy Scarecrow
+FROM python:3.13-slim AS scarecrow
 
 ENV TZ="Asia/Shanghai"
 ENV LANG="C.UTF-8"
@@ -55,11 +55,11 @@ EXPOSE 19159/tcp
 VOLUME /opt
 
 # 需要遵守 wheel 文件名规范
-COPY --from=wheel-builder /biliup/target/wheels/* /tmp/
+COPY --from=wheel-builder /scarecrow/target/wheels/* /tmp/
 
 RUN set -eux; \
 	\
-	whl=$(ls /tmp/biliup*.whl); \
+	whl=$(ls /tmp/scarecrow*.whl); \
 	pip3 install --no-cache-dir "$whl"; \
 	# pip3 install --no-cache-dir "$whl[quickjs]"; \
 	pip3 cache purge; \
@@ -128,4 +128,4 @@ RUN set -eux; \
 
 WORKDIR /opt
 
-ENTRYPOINT ["biliup"]
+ENTRYPOINT ["scarecrow"]

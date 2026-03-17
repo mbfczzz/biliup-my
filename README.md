@@ -1,33 +1,12 @@
 <div align="center">
-  <img src="https://docs.biliup.rs/home.png" alt="description" width="300" height="300"/>
-</div>
 
-<div align="center">
+# Scarecrow
 
-[![Python](https://img.shields.io/badge/python-3.9%2B-blue)](http://www.python.org/download)
-[![PyPI](https://img.shields.io/pypi/v/biliup)](https://pypi.org/project/biliup)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/biliup)](https://pypi.org/project/biliup)
-[![License](https://img.shields.io/github/license/biliup/biliup)](https://github.com/biliup/biliup/blob/master/LICENSE)
-[![Telegram](https://img.shields.io/badge/Telegram-Group-blue.svg?logo=telegram)](https://t.me/+IkpIABHqy6U0ZTQ5)
-
-[![GitHub Issues](https://img.shields.io/github/issues/biliup/biliup?label=Issues)](https://github.com/biliup/biliup/issues)
-[![GitHub Stars](https://img.shields.io/github/stars/biliup/biliup)](https://github.com/biliup/biliup/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/biliup/biliup)](https://github.com/biliup/biliup/network)
+直播录制和自动上传工具
 
 </div>
 
-## 🛠️ 功能
-* Twitch 直播自动录制
-* 多频道同时监控，24X7无人值守运行
-* 现代化 Vue 3 Web 界面
-* 前后端分离架构
-
-论坛：[BBS](https://bbs.biliup.rs)
-
-## 📜 更新日志
-
-> [!IMPORTANT]  
-> **Disclaimer / 免责声明**
+## 📜 免责声明
 > - 本项目仅供个人学习研究，不保证稳定性，不提供技术支持
 > - 使用本项目产生的一切后果由用户自行承担
 > - 禁止商业用途，请遵守版权及平台规定
@@ -37,19 +16,16 @@
 > - Commercial use is strictly prohibited
 > - Please respect copyright and platform ToS
 
-- **[更新日志 »](https://biliup.github.io/biliup/docs/guide/changelog)**
+- **[更新日志 »](./CHANGELOG.md)**
 
 ## 📜 使用文档
-B 站命令行投稿工具，支持**短信登录**、**账号密码登录**、**扫码登录**、**浏览器登录**以及**网页Cookie登录**，并将登录后返回的 cookie 和 token 保存在 `cookie.json` 中，可用于其他项目。
+Scarecrow 是一个直播录制和自动上传工具，支持**短信登录**、**账号密码登录**、**扫码登录**、**浏览器登录**以及**网页Cookie登录**，并将登录后返回的 cookie 和 token 保存在 `cookie.json` 中。
 
-- 下载 Release: [biliupR](https://github.com/biliup/biliup/releases/latest)
-- 获取命令帮助 `biliup --help` 
-
-**文档地址**：<https://biliup.github.io/biliup-rs>
+- 获取命令帮助 `scarecrow --help`
 ```shell
-Upload video to bilibili.
+Scarecrow - Stream recorder and uploader
 
-Usage: biliup [OPTIONS] <COMMAND>
+Usage: scarecrow [OPTIONS] <COMMAND>
 
 Commands:
   login     登录B站并保存登录信息
@@ -74,7 +50,7 @@ Options:
 ```shell
 启动web服务，默认端口19159
 
-Usage: biliup server [OPTIONS]
+Usage: scarecrow server [OPTIONS]
 
 Options:
   -b, --bind <BIND>  Specify bind address [default: 0.0.0.0]
@@ -83,23 +59,19 @@ Options:
   -h, --help         Print help
 ```
 
-- [使用文档 »](https://docs.biliup.rs)
+- [使用文档 »](./docs/)
 
 ## 🚀 快速开始
 
 ### Windows
-- 下载 Release: [bbup-app_0.1.0_x64](https://github.com/biliup/biliup/releases/latest)
+- 下载并运行可执行文件
 
 ### Linux 或 macOS
-1. 安装 [uv](https://docs.astral.sh/uv/getting-started/installation/) 
-2. 安装：`uv tool install biliup`
-3. 启动：`biliup server --auth`
+1. 安装 [uv](https://docs.astral.sh/uv/getting-started/installation/)
+2. 安装：`uv tool install scarecrow`
+3. 启动：`scarecrow server --auth`
 4. 访问 WebUI：`http://your-ip:19159`
-* 后台运行 
-  1. `nohup biliup server --auth &`
-  2. [请查看参考](https://biliup.github.io/biliup/docs/guide/introduction/#linuxxia-pei-zhi-kai-ji-zi-qi)
-### Termux
-- 详见[Wiki](https://github.com/biliup/biliup/wiki/Termux-%E4%B8%AD%E4%BD%BF%E7%94%A8-biliup)
+* 后台运行：`nohup scarecrow server --auth &`
 
 ---
 
@@ -109,22 +81,22 @@ Options:
 
 ### 架构概览
 
-Rust后端 + Python引擎 + Next.js前端的混合架构。
+Rust后端 + Python引擎 + Vue.js前端的混合架构。
 
 ```mermaid
 graph TB
     subgraph "🌐 前端层"
-        UI[Next.js Web界面<br/>React + TypeScript<br/>Semi UI组件库]
+        UI[Vue.js Web界面<br/>Vue 3 + Vite<br/>轻量级组件]
     end
-    
+
     subgraph "⚡ Rust后端服务"
-        CLI[Web API服务器<br/>biliup-cli<br/>用户认证 & REST API]
-        CORE[核心上传库<br/>biliup<br/>Bilibili API客户端]
+        CLI[Web API服务器<br/>scarecrow-cli<br/>用户认证 & REST API]
+        CORE[核心上传库<br/>scarecrow-core<br/>Bilibili API客户端]
         GEARS[Python绑定<br/>stream-gears<br/>性能优化桥接]
     end
     
     subgraph "🐍 Python引擎"
-        ENGINE[下载引擎<br/>biliup<br/>任务调度 & 流处理]
+        ENGINE[下载引擎<br/>scarecrow<br/>任务调度 & 流处理]
         PLUGINS[插件系统<br/>20+平台支持<br/>斗鱼/虎牙/Twitch等]
         DANMAKU[弹幕系统<br/>实时弹幕获取<br/>多平台协议支持]
     end
@@ -175,24 +147,15 @@ graph TB
 ### Python
 
 1. 安装依赖 `maturin dev`
-2. `npm run build` 
-3. 启动 Biliup：`python3 -m biliup`
+2. `npm run build`
+3. 启动 Scarecrow：`python3 -m scarecrow`
 
 ### Rust-cli
 
 1. `npm run build`
-2. 构建 `cargo build --release --bin biliup`
-3. 开发启动 BiliupR：`cargo run`
+2. 构建 `cargo build --release --bin scarecrow`
+3. 开发启动：`cargo run`
 
 ## 🤝Credits
 * Thanks `ykdl, youtube-dl, streamlink` provides downloader.
 * Thanks `THMonster/danmaku`.
-
-
-## 💴捐赠
-<img src=".github/resource/Image.jpg" width="200" />
-
-[爱发电 »](https://afdian.com/a/biliup)
-
-## ⭐Stars
-[![Star History Chart](https://api.star-history.com/svg?repos=biliup/biliup&type=Date)](https://star-history.com/#biliup/biliup&Date)

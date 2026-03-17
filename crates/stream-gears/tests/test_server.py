@@ -3,7 +3,7 @@ import asyncio
 import stream_gears
 
 async def main():
-    # from biliup.common.util import client, loop
+    # from scarecrow.common.util import client, loop
     # print(loop)
     config = stream_gears.config_bindings()
     print(config)
