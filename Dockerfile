@@ -36,7 +36,7 @@ RUN set -eux; \
 	git clone --depth 1 --branch "$branch_name" "$repo_url" /scarecrow; \
 	fi;
 
-COPY --from=webui-builder /scarecrow/frontend/out /scarecrow/out
+COPY --from=webui-builder /scarecrow/frontend/dist /scarecrow/out
 
 WORKDIR /scarecrow
 
