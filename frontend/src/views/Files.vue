@@ -91,27 +91,29 @@ onMounted(load)
 </script>
 
 <style scoped>
-.page { padding: 40px; max-width: 1200px; margin: 0 auto; }
-.header { margin-bottom: 32px; }
-h1 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-.subtitle { font-size: 14px; color: #9ca3af; }
+.page { padding: 48px; max-width: 1200px; margin: 0 auto; min-height: 100vh; }
+.header { margin-bottom: 40px; }
+h1 { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px; }
+.subtitle { font-size: 15px; color: #9ca3af; font-weight: 400; }
 
-.streamers-list { display: flex; flex-direction: column; gap: 16px; }
-.streamer-section { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; overflow: hidden; }
-.streamer-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-.streamer-header:hover { background: #252525; }
-.streamer-header h3 { font-size: 16px; color: #fff; margin: 0; }
-.toggle { color: #9ca3af; font-size: 12px; }
+.streamers-list { display: flex; flex-direction: column; gap: 20px; }
+.streamer-section { background: rgba(26, 26, 26, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+.streamer-section:hover { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border-color: rgba(99, 102, 241, 0.15); }
+.streamer-header { padding: 24px 28px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+.streamer-header:hover { background: rgba(99, 102, 241, 0.05); }
+.streamer-header h3 { font-size: 18px; color: #fff; margin: 0; font-weight: 600; letter-spacing: -0.3px; }
+.toggle { color: #9ca3af; font-size: 14px; transition: transform 0.2s; }
 
-.files-container { padding: 0 20px 20px; border-top: 1px solid #2a2a2a; }
-.loading-small { display: flex; align-items: center; gap: 12px; padding: 20px; color: #9ca3af; }
-.spinner-sm { width: 20px; height: 20px; border: 2px solid #2a2a2a; border-top-color: #6366f1; border-radius: 50%; animation: spin 0.8s linear infinite; }
+.files-container { padding: 0 28px 28px; border-top: 1px solid rgba(255, 255, 255, 0.04); }
+.loading-small { display: flex; align-items: center; gap: 12px; padding: 24px; color: #9ca3af; }
+.spinner-sm { width: 24px; height: 24px; border: 2px solid rgba(99, 102, 241, 0.1); border-top-color: #6366f1; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.empty-small { padding: 20px; color: #6b7280; text-align: center; }
-.files-list { display: flex; flex-direction: column; gap: 8px; padding-top: 16px; }
-.file-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: #0f0f0f; border-radius: 8px; }
-.file-icon { font-size: 20px; }
-.file-name { flex: 1; color: #e0e0e0; font-size: 14px; }
-.file-size { color: #9ca3af; font-size: 13px; }
+.empty-small { padding: 24px; color: #6b7280; text-align: center; font-size: 14px; }
+.files-list { display: flex; flex-direction: column; gap: 10px; padding-top: 20px; }
+.file-item { display: flex; align-items: center; gap: 14px; padding: 16px; background: rgba(15, 15, 15, 0.6); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px; transition: all 0.2s; }
+.file-item:hover { background: rgba(15, 15, 15, 0.8); border-color: rgba(99, 102, 241, 0.2); transform: translateX(4px); }
+.file-icon { font-size: 22px; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); }
+.file-name { flex: 1; color: #e5e7eb; font-size: 14px; font-weight: 500; }
+.file-size { color: #9ca3af; font-size: 13px; font-family: 'SF Mono', 'Monaco', 'Courier New', monospace; }
 </style>

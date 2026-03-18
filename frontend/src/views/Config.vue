@@ -1,50 +1,38 @@
 <template>
   <div class="page">
-    <div class="header">
-      <div>
-        <h1>系统配置</h1>
-        <p class="subtitle">配置录播和上传参数</p>
-      </div>
+    <div class="page-header">
+      <h1>系统配置</h1>
+      <p class="subtitle">配置录播和上传参数</p>
     </div>
 
-    <!-- 加载状态 -->
     <div v-if="loading" class="loading-state">
       <div class="spinner"></div>
       <p>加载配置中...</p>
     </div>
 
-    <!-- 配置表单 -->
-    <div v-else class="config-container">
+    <div v-else class="config-grid">
       <div class="card">
-        <div class="card-header">
-          <h3>📁 路径配置</h3>
-        </div>
-        <div class="card-body">
-          <div class="form-group">
+        <div class="card-icon">📁</div>
+        <h3 class="card-title">路径配置</h3>
+        <div class="card-content">
+          <div class="form-item">
             <label>下载保存路径</label>
-            <input
-              v-model="config.download_path"
-              placeholder="/path/to/downloads"
-            >
-            <div class="hint">录制的视频文件保存位置</div>
+            <input v-model="config.download_path" placeholder="/path/to/downloads">
+            <span class="hint">录制的视频文件保存位置</span>
           </div>
-          <div class="form-group">
+          <div class="form-item">
             <label>上传临时路径</label>
-            <input
-              v-model="config.upload_path"
-              placeholder="/path/to/uploads"
-            >
-            <div class="hint">上传前的临时文件存储位置</div>
+            <input v-model="config.upload_path" placeholder="/path/to/uploads">
+            <span class="hint">上传前的临时文件存储位置</span>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <h3>⚙️ 录制配置</h3>
-        </div>
-        <div class="card-body">
-          <div class="form-group">
+        <div class="card-icon">⚙️</div>
+        <h3 class="card-title">录制配置</h3>
+        <div class="card-content">
+          <div class="form-item">
             <label>视频质量</label>
             <select v-model="config.quality">
               <option value="best">最佳质量</option>
@@ -52,51 +40,41 @@
               <option value="medium">中等质量</option>
               <option value="low">低质量</option>
             </select>
-            <div class="hint">录制视频的画质设置</div>
           </div>
-          <div class="form-group">
+          <div class="form-item">
             <label>文件格式</label>
             <select v-model="config.format">
               <option value="mp4">MP4</option>
               <option value="flv">FLV</option>
               <option value="mkv">MKV</option>
             </select>
-            <div class="hint">录制视频的文件格式</div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <h3>🚀 上传配置</h3>
-        </div>
-        <div class="card-body">
-          <div class="form-group">
-            <label>
+        <div class="card-icon">🚀</div>
+        <h3 class="card-title">上传配置</h3>
+        <div class="card-content">
+          <div class="form-item checkbox-item">
+            <label class="checkbox-label">
               <input type="checkbox" v-model="config.auto_upload">
-              自动上传
+              <span>自动上传</span>
             </label>
-            <div class="hint">录制完成后自动上传到平台</div>
+            <span class="hint">录制完成后自动上传到平台</span>
           </div>
-          <div class="form-group">
+          <div class="form-item">
             <label>并发上传数</label>
-            <input
-              type="number"
-              v-model.number="config.concurrent_uploads"
-              min="1"
-              max="5"
-            >
-            <div class="hint">同时上传的文件数量（1-5）</div>
+            <input type="number" v-model.number="config.concurrent_uploads" min="1" max="5">
+            <span class="hint">同时上传的文件数量（1-5）</span>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="actions">
-        <button class="btn-secondary" @click="load">重置</button>
-        <button class="btn-primary" @click="save">
-          💾 保存配置
-        </button>
-      </div>
+    <div v-if="!loading" class="actions">
+      <button class="btn-secondary" @click="load">重置</button>
+      <button class="btn-primary" @click="save">保存配置</button>
     </div>
   </div>
 </template>
@@ -143,171 +121,193 @@ onMounted(load)
 
 <style scoped>
 .page {
-  padding: 40px;
-  max-width: 900px;
+  padding: 48px;
+  max-width: 1200px;
   margin: 0 auto;
+  min-height: 100vh;
 }
 
-.header {
-  margin-bottom: 32px;
+.page-header {
+  margin-bottom: 40px;
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
   color: #fff;
   margin-bottom: 8px;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
-  font-size: 14px;
+  font-size: 15px;
   color: #9ca3af;
+  font-weight: 400;
 }
 
-/* 加载状态 */
 .loading-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px;
-  color: #9ca3af;
+  padding: 120px 20px;
+  color: #6b7280;
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid #2a2a2a;
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(99, 102, 241, 0.1);
   border-top-color: #6366f1;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* 配置容器 */
-.config-container {
-  display: flex;
-  flex-direction: column;
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   gap: 24px;
+  margin-bottom: 32px;
 }
 
-/* 卡片 */
 .card {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 28px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
-.card-header {
-  padding: 20px 24px;
-  border-bottom: 1px solid #2a2a2a;
-  background: #252525;
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-color: rgba(99, 102, 241, 0.2);
 }
 
-.card-header h3 {
-  font-size: 16px;
+.card-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.3));
+}
+
+.card-title {
+  font-size: 18px;
   font-weight: 600;
   color: #fff;
-  margin: 0;
-}
-
-.card-body {
-  padding: 24px;
-}
-
-/* 表单 */
-.form-group {
   margin-bottom: 24px;
+  letter-spacing: -0.3px;
 }
 
-.form-group:last-child {
-  margin-bottom: 0;
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #e0e0e0;
-  font-size: 14px;
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-item label {
+  font-size: 13px;
   font-weight: 600;
+  color: #d1d5db;
+  letter-spacing: 0.3px;
 }
 
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group select {
+.form-item input[type="text"],
+.form-item input[type="number"],
+.form-item select {
   width: 100%;
-  padding: 14px 16px;
-  background: #0f0f0f;
-  border: 1px solid #2a2a2a;
-  border-radius: 10px;
-  color: #e0e0e0;
+  padding: 12px 16px;
+  background: rgba(15, 15, 15, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #e5e7eb;
   font-size: 14px;
   transition: all 0.2s;
+  font-family: inherit;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.form-item input:focus,
+.form-item select:focus {
   outline: none;
   border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  background: rgba(15, 15, 15, 0.95);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
 }
 
-.form-group input[type="checkbox"] {
-  width: auto;
-  margin-right: 8px;
-  cursor: pointer;
+.checkbox-item {
+  gap: 12px;
 }
 
-.form-group label:has(input[type="checkbox"]) {
+.checkbox-label {
   display: flex;
   align-items: center;
+  gap: 10px;
   cursor: pointer;
+  font-size: 14px;
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #6366f1;
 }
 
 .hint {
-  margin-top: 8px;
   font-size: 12px;
   color: #6b7280;
+  line-height: 1.5;
 }
 
-/* 操作按钮 */
 .actions {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-  margin-top: 32px;
+  padding-top: 8px;
 }
 
 .btn-primary {
-  background: #6366f1;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: #fff;
   border: none;
   padding: 14px 32px;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
 }
 
 .btn-primary:hover {
-  background: #4f46e5;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-secondary {
-  background: #374151;
-  color: #fff;
-  border: none;
+  background: rgba(55, 65, 81, 0.6);
+  color: #d1d5db;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 14px 32px;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
@@ -315,6 +315,7 @@ h1 {
 }
 
 .btn-secondary:hover {
-  background: #4b5563;
+  background: rgba(75, 85, 99, 0.8);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 </style>
