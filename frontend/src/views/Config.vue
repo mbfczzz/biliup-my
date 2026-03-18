@@ -234,8 +234,17 @@ h1 {
   border-radius: 12px;
   color: #e5e7eb;
   font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
+}
+
+.form-item input::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+
+.form-item input:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .form-item input:focus,
@@ -244,6 +253,19 @@ h1 {
   border-color: #6366f1;
   background: rgba(15, 15, 15, 0.95);
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.form-item input:disabled,
+.form-item select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(15, 15, 15, 0.5);
+}
+
+.form-item input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px rgba(15, 15, 15, 0.95) inset;
+  -webkit-text-fill-color: #e5e7eb;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .checkbox-item {
@@ -289,8 +311,25 @@ h1 {
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
 }
 
 .btn-primary:hover {
@@ -300,6 +339,12 @@ h1 {
 
 .btn-primary:active {
   transform: translateY(0);
+  transition: transform 0.1s;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
 }
 
 .btn-secondary {
@@ -311,11 +356,22 @@ h1 {
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-secondary:hover {
   background: rgba(75, 85, 99, 0.8);
   border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+  transition: transform 0.1s;
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.3);
+  outline-offset: 2px;
 }
 </style>

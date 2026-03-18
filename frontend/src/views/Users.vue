@@ -129,8 +129,12 @@ h1 { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-
 .user-name { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; letter-spacing: -0.2px; }
 .user-id { font-size: 13px; color: #9ca3af; font-family: 'SF Mono', 'Monaco', 'Courier New', monospace; }
 
-.btn-primary { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3); }
+.btn-primary { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3); position: relative; overflow: hidden; }
+.btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); transition: left 0.5s; }
+.btn-primary:hover::before { left: 100%; }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4); }
+.btn-primary:active { transform: translateY(0); transition: transform 0.1s; }
+.btn-primary:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
 .btn-danger-sm { background: rgba(220, 38, 38, 0.9); color: #fff; border: 1px solid rgba(220, 38, 38, 0.3); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
 .btn-danger-sm:hover { background: #dc2626; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); }
 

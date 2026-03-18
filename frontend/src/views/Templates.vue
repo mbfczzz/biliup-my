@@ -147,10 +147,15 @@ h1 { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-
 .info-item .label { color: #9ca3af; min-width: 60px; font-weight: 500; }
 .info-item span:last-child { color: #e5e7eb; }
 
-.btn-primary { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s; box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3); }
+.btn-primary { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: #fff; border: none; padding: 14px 28px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3); position: relative; overflow: hidden; }
+.btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); transition: left 0.5s; }
+.btn-primary:hover::before { left: 100%; }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4); }
-.btn-secondary { background: rgba(55, 65, 81, 0.6); color: #d1d5db; border: 1px solid rgba(255, 255, 255, 0.08); padding: 14px 28px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s; }
-.btn-secondary:hover { background: rgba(75, 85, 99, 0.8); border-color: rgba(255, 255, 255, 0.12); }
+.btn-primary:active { transform: translateY(0); transition: transform 0.1s; }
+.btn-primary:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+.btn-secondary { background: rgba(55, 65, 81, 0.6); color: #d1d5db; border: 1px solid rgba(255, 255, 255, 0.08); padding: 14px 28px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+.btn-secondary:hover { background: rgba(75, 85, 99, 0.8); border-color: rgba(255, 255, 255, 0.12); transform: translateY(-1px); }
+.btn-secondary:active { transform: translateY(0); transition: transform 0.1s; }
 .btn-danger-sm { background: rgba(220, 38, 38, 0.9); color: #fff; border: 1px solid rgba(220, 38, 38, 0.3); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.2s; }
 .btn-danger-sm:hover { background: #dc2626; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); }
 
@@ -164,8 +169,11 @@ h1 { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-
 .form-group { margin-bottom: 24px; }
 .form-group:last-child { margin-bottom: 0; }
 .form-group label { display: block; margin-bottom: 10px; color: #d1d5db; font-size: 13px; font-weight: 600; letter-spacing: 0.3px; }
-.form-group input { width: 100%; padding: 14px 16px; background: rgba(15, 15, 15, 0.8); border: 1.5px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #e5e7eb; font-size: 14px; transition: all 0.2s; font-family: inherit; }
+.form-group input { width: 100%; padding: 14px 16px; background: rgba(15, 15, 15, 0.8); border: 1.5px solid rgba(255, 255, 255, 0.08); border-radius: 12px; color: #e5e7eb; font-size: 14px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-family: inherit; }
+.form-group input::placeholder { color: #6b7280; opacity: 1; }
+.form-group input:hover { border-color: rgba(255, 255, 255, 0.12); }
 .form-group input:focus { outline: none; border-color: #6366f1; background: rgba(15, 15, 15, 0.95); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+.form-group input:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px rgba(15, 15, 15, 0.95) inset; -webkit-text-fill-color: #e5e7eb; }
 .modal-footer { display: flex; gap: 12px; padding: 24px 32px; border-top: 1px solid rgba(255, 255, 255, 0.06); }
 .modal-footer button { flex: 1; }
 </style>

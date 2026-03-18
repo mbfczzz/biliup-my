@@ -279,11 +279,16 @@ td {
 }
 
 tbody tr {
-  transition: background 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 tbody tr:hover {
   background: rgba(99, 102, 241, 0.05);
+  transform: scale(1.002);
+}
+
+tbody tr:active {
+  transform: scale(1);
 }
 
 .channel-name strong {
@@ -332,11 +337,28 @@ tbody tr:hover {
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 8px;
   box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
 }
 
 .btn-primary:hover {
@@ -346,6 +368,12 @@ tbody tr:hover {
 
 .btn-primary:active {
   transform: translateY(0);
+  transition: transform 0.1s;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
 }
 
 .btn-primary:disabled {
@@ -490,8 +518,17 @@ tbody tr:hover {
   border-radius: 12px;
   color: #e5e7eb;
   font-size: 14px;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
+}
+
+.form-group input::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+
+.form-group input:hover {
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .form-group input:focus {
@@ -499,6 +536,11 @@ tbody tr:hover {
   border-color: #6366f1;
   background: rgba(15, 15, 15, 0.95);
   box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.form-group input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px rgba(15, 15, 15, 0.95) inset;
+  -webkit-text-fill-color: #e5e7eb;
 }
 
 .hint {
