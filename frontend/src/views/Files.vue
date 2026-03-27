@@ -1,34 +1,32 @@
 <template>
   <div class="page">
-    <div class="header">
-      <div>
-        <h1>文件管理</h1>
-        <p class="subtitle">查看录制的视频文件</p>
-      </div>
+    <div class="page-header">
+      <h1 class="page-title">文件管理</h1>
+      <p class="page-subtitle">按频道查看录制的文件</p>
     </div>
 
-    <div class="streamers-list">
-      <div v-for="s in streamers" :key="s.id" class="streamer-section">
-        <div class="streamer-header" @click="toggleFiles(s.id)">
-          <h3>{{ s.name }}</h3>
-          <span class="toggle">{{ expandedIds.includes(s.id) ? '▼' : '▶' }}</span>
+    <div v-if="!streamers.length" class="empty-box">
+      <div class="empty-icon">📁</div>
+      <h3 class="empty-title">暂无频道</h3>
+      <p class="empty-desc">添加录制频道后即可在此查看文件</p>
+    </div>
+
+    <div v-else class="sections">
+      <div v-for="s in streamers" :key="s.id" class="section card">
+        <div class="section-head" @click="toggle(s.id)">
+          <div class="section-left">
+            <svg :class="['chevron', { open: expanded.has(s.id) }]" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6 4l4 4-4 4"/></svg>
+            <span class="section-name">{{ s.name }}</span>
+          </div>
+          <span v-if="files[s.id]" class="section-count">{{ files[s.id].length }} 个文件</span>
         </div>
-
-        <div v-if="expandedIds.includes(s.id)" class="files-container">
-          <div v-if="loadingFiles[s.id]" class="loading-small">
-            <div class="spinner-sm"></div>
-            <span>加载中...</span>
-          </div>
-
-          <div v-else-if="!files[s.id]?.length" class="empty-small">
-            暂无文件
-          </div>
-
-          <div v-else class="files-list">
-            <div v-for="f in files[s.id]" :key="f.name" class="file-item">
-              <span class="file-icon">📄</span>
-              <span class="file-name">{{ f.name }}</span>
-              <span class="file-size">{{ formatSize(f.size) }}</span>
+        <div v-if="expanded.has(s.id)" class="section-body">
+          <div v-if="loadingFiles[s.id]" class="loading-inline"><div class="spinner" style="width:20px;height:20px;border-width:2px;margin-bottom:0"></div><span>加载中...</span></div>
+          <div v-else-if="!files[s.id]?.length" class="no-files">暂无文件</div>
+          <div v-else class="file-list">
+            <div v-for="f in files[s.id]" :key="f.file" class="file-row">
+              <svg class="file-icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
+              <span class="file-name">{{ f.file }}</span>
             </div>
           </div>
         </div>
@@ -38,82 +36,51 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import api from '../api'
 
 const streamers = ref([])
-const files = ref({})
-const expandedIds = ref([])
-const loadingFiles = ref({})
+const files = reactive({})
+const expanded = ref(new Set())
+const loadingFiles = reactive({})
 
 const load = async () => {
-  try {
-    const { data } = await api.getStreamers()
-    streamers.value = data || []
-  } catch (error) {
-    console.error('加载失败:', error)
-  }
+  try { const { data } = await api.getStreamers(); streamers.value = data || [] }
+  catch { streamers.value = [] }
 }
 
-const toggleFiles = async (id) => {
-  const index = expandedIds.value.indexOf(id)
-  if (index > -1) {
-    expandedIds.value.splice(index, 1)
-  } else {
-    expandedIds.value.push(id)
-    if (!files.value[id]) {
-      await loadFiles(id)
-    }
+const toggle = async (id) => {
+  if (expanded.value.has(id)) { expanded.value.delete(id); expanded.value = new Set(expanded.value) }
+  else {
+    expanded.value.add(id); expanded.value = new Set(expanded.value)
+    if (!files[id]) await loadFiles(id)
   }
 }
 
 const loadFiles = async (id) => {
-  try {
-    loadingFiles.value[id] = true
-    const { data } = await api.getFiles(id)
-    files.value[id] = data || []
-  } catch (error) {
-    console.error('加载文件失败:', error)
-    files.value[id] = []
-  } finally {
-    loadingFiles.value[id] = false
-  }
-}
-
-const formatSize = (bytes) => {
-  if (!bytes) return '-'
-  const mb = bytes / 1024 / 1024
-  if (mb < 1024) return mb.toFixed(2) + ' MB'
-  return (mb / 1024).toFixed(2) + ' GB'
+  try { loadingFiles[id] = true; const { data } = await api.getFiles(id); files[id] = data || [] }
+  catch { files[id] = [] }
+  finally { loadingFiles[id] = false }
 }
 
 onMounted(load)
 </script>
 
 <style scoped>
-.page { padding: 48px; max-width: 1200px; margin: 0 auto; min-height: 100vh; }
-.header { margin-bottom: 40px; }
-h1 { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px; }
-.subtitle { font-size: 15px; color: #9ca3af; font-weight: 400; }
-
-.streamers-list { display: flex; flex-direction: column; gap: 20px; }
-.streamer-section { background: rgba(26, 26, 26, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-.streamer-section:hover { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); border-color: rgba(99, 102, 241, 0.15); }
-.streamer-header { padding: 24px 28px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
-.streamer-header:hover { background: rgba(99, 102, 241, 0.05); }
-.streamer-header h3 { font-size: 18px; color: #fff; margin: 0; font-weight: 600; letter-spacing: -0.3px; }
-.toggle { color: #9ca3af; font-size: 14px; transition: transform 0.2s; }
-
-.files-container { padding: 0 28px 28px; border-top: 1px solid rgba(255, 255, 255, 0.04); }
-.loading-small { display: flex; align-items: center; gap: 12px; padding: 24px; color: #9ca3af; }
-.spinner-sm { width: 24px; height: 24px; border: 2px solid rgba(99, 102, 241, 0.1); border-top-color: #6366f1; border-radius: 50%; animation: spin 0.8s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.empty-small { padding: 24px; color: #6b7280; text-align: center; font-size: 14px; }
-.files-list { display: flex; flex-direction: column; gap: 10px; padding-top: 20px; }
-.file-item { display: flex; align-items: center; gap: 14px; padding: 16px; background: rgba(15, 15, 15, 0.6); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 12px; transition: all 0.2s; }
-.file-item:hover { background: rgba(15, 15, 15, 0.8); border-color: rgba(99, 102, 241, 0.2); transform: translateX(4px); }
-.file-icon { font-size: 22px; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); }
-.file-name { flex: 1; color: #e5e7eb; font-size: 14px; font-weight: 500; }
-.file-size { color: #9ca3af; font-size: 13px; font-family: 'SF Mono', 'Monaco', 'Courier New', monospace; }
+.sections { display:flex; flex-direction:column; gap:8px; }
+.section-head { padding:14px 20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; transition:background .1s var(--ease); }
+.section-head:hover { background:rgba(255,255,255,.02); }
+.section-left { display:flex; align-items:center; gap:8px; }
+.chevron { color:var(--c-text-3); transition:transform .15s var(--ease); }
+.chevron.open { transform:rotate(90deg); }
+.section-name { font-size:15px; font-weight:600; color:var(--c-text-1); }
+.section-count { font-size:12px; color:var(--c-text-3); font-family:var(--font-mono); }
+.section-body { padding:0 20px 16px; border-top:1px solid var(--c-border); }
+.loading-inline { display:flex; align-items:center; gap:10px; padding:16px 0; color:var(--c-text-3); font-size:13px; }
+.no-files { padding:16px 0; color:var(--c-text-3); font-size:13px; text-align:center; }
+.file-list { display:flex; flex-direction:column; gap:2px; padding-top:12px; }
+.file-row { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px; transition:background .1s var(--ease); }
+.file-row:hover { background:rgba(255,255,255,.03); }
+.file-icon { color:var(--c-text-3); flex-shrink:0; }
+.file-name { font-size:13px; color:var(--c-text-2); font-family:var(--font-mono); word-break:break-all; }
 </style>

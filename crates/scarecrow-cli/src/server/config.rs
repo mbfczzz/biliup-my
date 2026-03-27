@@ -86,112 +86,6 @@ pub struct Config {
     #[serde(default)]
     pub use_live_cover: Option<bool>,
 
-    // 斗鱼平台设置
-    /// 斗鱼CDN节点
-    #[serde(default)]
-    pub douyu_cdn: Option<String>,
-    /// 斗鱼弹幕录制
-    #[serde(default)]
-    pub douyu_danmaku: Option<bool>,
-    /// 斗鱼码率
-    #[serde(default)]
-    pub douyu_rate: Option<u32>,
-
-    // 虎牙平台设置
-    /// 虎牙CDN节点
-    #[serde(default)]
-    pub huya_cdn: Option<String>,
-    /// 虎牙CDN回退
-    #[serde(default)]
-    pub huya_cdn_fallback: Option<bool>,
-    /// 虎牙弹幕录制
-    #[serde(default)]
-    pub huya_danmaku: Option<bool>,
-    /// 虎牙最大比率
-    #[serde(default)]
-    pub huya_max_ratio: Option<u32>,
-    /// 虎牙 Flv or Hls
-    #[serde(default)]
-    pub huya_protocol: Option<String>,
-
-    // 抖音平台设置
-    /// 抖音弹幕录制
-    #[serde(default)]
-    pub douyin_danmaku: Option<bool>,
-    /// 抖音画质
-    #[serde(default)]
-    pub douyin_quality: Option<String>,
-    /// 双屏直播录制方式
-    #[serde(default)]
-    pub douyin_double_screen: Option<bool>,
-    /// 抖音真原画
-    #[serde(default)]
-    pub douyin_true_origin: Option<bool>,
-
-    // 哔哩哔哩平台设置
-    /// B站弹幕录制
-    #[serde(default)]
-    pub bilibili_danmaku: Option<bool>,
-    /// B站弹幕详细信息
-    #[serde(default)]
-    pub bilibili_danmaku_detail: Option<bool>,
-    /// B站弹幕原始数据
-    #[serde(default)]
-    pub bilibili_danmaku_raw: Option<bool>,
-    /// B站协议类型：stream | hls_ts | hls_fmp4
-    #[serde(default)]
-    pub bili_protocol: Option<String>,
-    /// B站CDN节点列表
-    #[serde(default)]
-    pub bili_cdn: Option<Vec<String>>,
-    /// B站强制原画
-    #[serde(default)]
-    pub bili_force_source: Option<bool>,
-    /// B站直播API
-    #[serde(default)]
-    pub bili_liveapi: Option<String>,
-    /// B站回退API
-    #[serde(default)]
-    pub bili_fallback_api: Option<String>,
-    /// B站CDN回退
-    #[serde(default)]
-    pub bili_cdn_fallback: Option<bool>,
-    /// B站cn01节点替换
-    #[serde(default)]
-    pub bili_replace_cn01: Option<Vec<String>>,
-    /// B站画质编号
-    #[serde(default)]
-    pub bili_qn: Option<u32>,
-    /// B站免登录原画
-    #[serde(default)]
-    pub bili_anonymous_origin: Option<bool>,
-
-    // YouTube平台设置
-    /// YouTube首选视频编码
-    #[serde(default)]
-    pub youtube_prefer_vcodec: Option<String>,
-    /// YouTube首选音频编码
-    #[serde(default)]
-    pub youtube_prefer_acodec: Option<String>,
-    /// YouTube最大分辨率
-    #[serde(default)]
-    pub youtube_max_resolution: Option<u32>,
-    /// YouTube最大视频大小
-    #[serde(default)]
-    pub youtube_max_videosize: Option<String>,
-    /// YouTube开始日期
-    #[serde(default)]
-    pub youtube_after_date: Option<String>,
-    /// YouTube结束日期
-    #[serde(default)]
-    pub youtube_before_date: Option<String>,
-    /// YouTube启用直播下载
-    #[serde(default)]
-    pub youtube_enable_download_live: Option<bool>,
-    /// YouTube启用回放下载
-    #[serde(default)]
-    pub youtube_enable_download_playback: Option<bool>,
-
     // Twitch平台设置
     /// Twitch弹幕录制
     #[serde(default)]
@@ -199,14 +93,6 @@ pub struct Config {
     /// Twitch禁用广告
     #[serde(default)]
     pub twitch_disable_ads: Option<bool>,
-
-    // TwitCasting平台设置
-    /// TwitCasting弹幕录制
-    #[serde(default)]
-    pub twitcasting_danmaku: Option<bool>,
-    /// TwitCasting密码
-    #[serde(default)]
-    pub twitcasting_password: Option<String>,
 
     /// 录制主播配置映射
     #[serde(default)]
@@ -317,7 +203,7 @@ pub struct StreamerConfig {
 #[derive(bon::Builder, PartialEq, Debug, Clone, Serialize, Deserialize, Default, Patch)]
 #[patch(attribute(derive(Debug, Default, Deserialize)))]
 pub struct UserConfig {
-    // B站配置
+    // B站配置（用于上传投稿）
     /// B站Cookie字符串
     #[serde(default)]
     pub bili_cookie: Option<String>,
@@ -325,42 +211,10 @@ pub struct UserConfig {
     #[serde(default)]
     pub bili_cookie_file: Option<PathBuf>,
 
-    // 抖音配置
-    /// 抖音Cookie
-    #[serde(default)]
-    pub douyin_cookie: Option<String>,
-
     // Twitch配置
     /// Twitch Cookie
     #[serde(default)]
     pub twitch_cookie: Option<String>,
-
-    // YouTube配置
-    /// YouTube Cookie文件路径
-    #[serde(default)]
-    pub youtube_cookie: Option<PathBuf>,
-
-    // Niconico配置（使用rename保持与配置文件一致）
-    /// Niconico邮箱
-    #[serde(rename = "niconico-email", default)]
-    pub niconico_email: Option<String>,
-    /// Niconico密码
-    #[serde(rename = "niconico-password", default)]
-    pub niconico_password: Option<String>,
-    /// Niconico用户会话
-    #[serde(rename = "niconico-user-session", default)]
-    pub niconico_user_session: Option<String>,
-    /// Niconico清除凭据
-    #[serde(rename = "niconico-purge-credentials", default)]
-    pub niconico_purge_credentials: Option<String>,
-
-    // AfreecaTV配置
-    /// AfreecaTV用户名
-    #[serde(default)]
-    pub afreecatv_username: Option<String>,
-    /// AfreecaTV密码
-    #[serde(default)]
-    pub afreecatv_password: Option<String>,
 }
 
 /// 默认文件大小：2.5GB

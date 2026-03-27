@@ -128,13 +128,8 @@ impl PyDownloader {
                             let _is_download: bool = self_obj.getattr("is_download")?.extract()?;
                             let platform: String = self_obj.getattr("platform")?.extract()?;
 
-                            let stream_headers: HashMap<String, String> = if platform == "Huya" {
-                                let stream_headers = self_obj.getattr("stream_headers")?;
-                                self_obj.call_method1("update_headers", (&stream_headers,))?;
-                                stream_headers.extract()?
-                            } else {
-                                self_obj.getattr("stream_headers")?.extract()?
-                            };
+                            let stream_headers: HashMap<String, String> =
+                                self_obj.getattr("stream_headers")?.extract()?;
 
                             let _danmaku_init = self_obj.call_method0("danmaku_init")?;
                             // let platform: Option<PyAny> = self_obj.getattr("danmaku")?.extract()?;

@@ -7,13 +7,10 @@ use tokio::process::{Child, ChildStdout, Command};
 use tokio::sync::RwLock;
 use tokio::time::Duration;
 use tracing::{error, info};
-use url::Url;
 
 #[derive(Debug, Clone)]
 pub enum Platform {
-    Bilibili,
     Twitch { disable_ads: bool },
-    Generic,
 }
 
 #[derive(Debug, Clone)]
@@ -134,10 +131,6 @@ impl StreamlinkDownloader {
         let mut args = Vec::new();
 
         match &self.platform {
-            Platform::Bilibili => {
-                // Bilibili需要保留特定URL参数，否则segment请求会404
-                args.extend(self.parse_bilibili_params()?);
-            }
             Platform::Twitch { disable_ads } => {
                 if *disable_ads {
                     args.push("--twitch-disable-ads".to_string());
@@ -148,50 +141,9 @@ impl StreamlinkDownloader {
                     args.push(format!("--twitch-api-header=Authorization=OAuth {}", token));
                 }
             }
-            Platform::Generic => {}
         }
 
         Ok(args)
-    }
-
-    /// 解析Bilibili URL参数（白名单过滤）
-    fn parse_bilibili_params(&self) -> AppResult<Vec<String>> {
-        let mut params = Vec::new();
-
-        let url = Url::parse(&self.url).change_context(AppError::Unknown)?;
-        let query = url.query().unwrap_or("");
-
-        // 白名单参数
-        let mut whitelist = vec![
-            "uparams",
-            "upsig",
-            "sigparams",
-            "sign",
-            "flvsk",
-            "sk",
-            "mid",
-            "site",
-        ];
-
-        // 动态扩展白名单
-        let query_pairs: HashMap<_, _> = url.query_pairs().collect();
-
-        if let Some(sigparams) = query_pairs.get("sigparams") {
-            whitelist.extend(sigparams.split(',').map(|s| s.trim()));
-        }
-        if let Some(uparams) = query_pairs.get("uparams") {
-            whitelist.extend(uparams.split(',').map(|s| s.trim()));
-        }
-
-        // 过滤参数
-        for (key, value) in url.query_pairs() {
-            if whitelist.contains(&key.as_ref()) {
-                params.push("--http-query-param".to_string());
-                params.push(format!("{}={}", key, value));
-            }
-        }
-
-        Ok(params)
     }
 
     fn get_twitch_auth_token() -> Option<String> {

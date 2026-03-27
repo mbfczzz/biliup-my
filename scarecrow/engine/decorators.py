@@ -30,7 +30,6 @@ class Plugin:
     def sorted_checker(cls, urls):
         if not urls:
             return {}
-        from ..plugins import general
         curls = urls.copy()
         checker_plugins = {}
         for plugin in cls.download_plugins:
@@ -42,19 +41,16 @@ class Plugin:
                 checker_plugins[plugin.__name__] = plugin
             if not curls:
                 return checker_plugins
-        general.__plugin__.url_list = curls
-        checker_plugins[general.__plugin__.__name__] = general.__plugin__
         return checker_plugins
 
     @classmethod
     def inspect_checker(cls, url):
-        from ..plugins import general
         for plugin in cls.download_plugins:
             if not re.match(plugin.VALID_URL_BASE, url):
                 continue
             else:
                 return plugin
-        return general.__plugin__
+        return None
 
     def load_plugins(self, pkg):
         """Attempt to load plugins from the path specified.

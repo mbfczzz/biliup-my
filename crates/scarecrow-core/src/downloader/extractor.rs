@@ -10,15 +10,7 @@ use tracing::info;
 
 use crate::client::StatelessClient;
 
-mod bilibili;
-mod douyu;
-mod huya;
-
-const EXTRACTORS: [&(dyn SiteDefinition + Send + Sync); 3] = [
-    &bilibili::BiliLive {},
-    &huya::HuyaLive {},
-    &douyu::DouyuLive,
-];
+const EXTRACTORS: [&(dyn SiteDefinition + Send + Sync); 0] = [];
 
 #[async_trait]
 pub trait SiteDefinition {
