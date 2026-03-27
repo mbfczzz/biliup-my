@@ -23,34 +23,54 @@
       <button class="btn btn-primary" @click="showAdd = true">添加第一个频道</button>
     </div>
 
-    <div v-else class="card">
-      <table>
-        <thead>
-          <tr>
-            <th>频道名称</th>
-            <th>直播地址</th>
-            <th>状态</th>
-            <th style="width:180px">操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="c in channels" :key="c.id">
-            <td><span class="cell-name">{{ c.name }}</span></td>
-            <td><span class="cell-url">{{ c.url }}</span></td>
-            <td>
-              <span :class="['badge', c.status === 'Working' ? 'badge-live' : 'badge-offline']">
-                {{ c.status === 'Working' ? '直播中' : '离线' }}
-              </span>
-            </td>
-            <td>
-              <div class="cell-actions">
-                <button class="btn btn-ghost btn-sm" @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
-                <button class="btn btn-danger btn-sm" @click="del(c.id)">删除</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Desktop table -->
+    <div v-else class="card desktop-only">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>频道名称</th>
+              <th>直播地址</th>
+              <th>状态</th>
+              <th style="width:180px">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="c in channels" :key="c.id">
+              <td><span class="cell-name">{{ c.name }}</span></td>
+              <td><span class="cell-url">{{ c.url }}</span></td>
+              <td>
+                <span :class="['badge', c.status === 'Working' ? 'badge-live' : 'badge-offline']">
+                  {{ c.status === 'Working' ? '直播中' : '离线' }}
+                </span>
+              </td>
+              <td>
+                <div class="cell-actions">
+                  <button class="btn btn-ghost btn-sm" @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
+                  <button class="btn btn-danger btn-sm" @click="del(c.id)">删除</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Mobile cards -->
+    <div v-if="channels.length" class="mobile-only channel-cards">
+      <div v-for="c in channels" :key="c.id" class="card channel-card">
+        <div class="channel-card-top">
+          <span class="cell-name">{{ c.name }}</span>
+          <span :class="['badge', c.status === 'Working' ? 'badge-live' : 'badge-offline']">
+            {{ c.status === 'Working' ? '直播中' : '离线' }}
+          </span>
+        </div>
+        <div class="channel-card-url">{{ c.url }}</div>
+        <div class="cell-actions">
+          <button class="btn btn-ghost btn-sm" @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
+          <button class="btn btn-danger btn-sm" @click="del(c.id)">删除</button>
+        </div>
+      </div>
     </div>
 
     <div v-if="showAdd" class="modal-overlay" @click.self="showAdd = false">
@@ -131,4 +151,17 @@ onMounted(load)
 .cell-name { font-weight:600; color:var(--c-text-1); }
 .cell-url { color:var(--c-accent-hover); font-size:13px; font-family:var(--font-mono); }
 .cell-actions { display:flex; gap:6px; }
+
+.desktop-only { display:block; }
+.mobile-only { display:none; }
+
+.channel-cards { display:flex; flex-direction:column; gap:10px; }
+.channel-card { padding:16px; }
+.channel-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.channel-card-url { color:var(--c-accent-hover); font-size:12px; font-family:var(--font-mono); margin-bottom:12px; word-break:break-all; }
+
+@media (max-width:768px) {
+  .desktop-only { display:none !important; }
+  .mobile-only { display:block !important; }
+}
 </style>

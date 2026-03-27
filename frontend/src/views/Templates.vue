@@ -88,7 +88,7 @@ onMounted(load)
 </script>
 
 <style scoped>
-.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap:16px; }
 .tpl-card { padding:24px; }
 .tpl-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--c-border); }
 .tpl-name { font-size:16px; font-weight:700; color:var(--c-text-1); margin:0; }

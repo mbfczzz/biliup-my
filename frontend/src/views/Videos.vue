@@ -14,16 +14,18 @@
     </div>
 
     <div v-else class="card">
-      <table>
-        <thead><tr><th>文件名</th><th>大小</th><th>修改时间</th></tr></thead>
-        <tbody>
-          <tr v-for="v in videos" :key="v.key">
-            <td><span class="cell-name">{{ v.name }}</span></td>
-            <td><span class="cell-size">{{ formatSize(v.size) }}</span></td>
-            <td><span class="cell-time">{{ formatTime(v.updateTime) }}</span></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>文件名</th><th>大小</th><th>修改时间</th></tr></thead>
+          <tbody>
+            <tr v-for="v in videos" :key="v.key">
+              <td><span class="cell-name">{{ v.name }}</span></td>
+              <td><span class="cell-size">{{ formatSize(v.size) }}</span></td>
+              <td><span class="cell-time">{{ formatTime(v.updateTime) }}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>

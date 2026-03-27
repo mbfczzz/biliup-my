@@ -84,7 +84,7 @@ onMounted(load)
 </script>
 
 <style scoped>
-.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap:12px; }
 .user-card { padding:20px 24px; display:flex; justify-content:space-between; align-items:center; }
 .user-name { font-size:15px; font-weight:600; color:var(--c-text-1); margin-bottom:4px; }
 .user-id { font-size:12px; color:var(--c-text-3); font-family:var(--font-mono); }
