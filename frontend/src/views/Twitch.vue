@@ -23,55 +23,57 @@
       <button class="btn btn-primary" @click="showAdd = true">添加第一个频道</button>
     </div>
 
-    <!-- Desktop table -->
-    <div v-else class="card desktop-only">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>频道名称</th>
-              <th>直播地址</th>
-              <th>状态</th>
-              <th style="width:180px">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="c in channels" :key="c.id">
-              <td><span class="cell-name">{{ c.name }}</span></td>
-              <td><span class="cell-url">{{ c.url }}</span></td>
-              <td>
-                <span :class="['badge', c.status === 'Working' ? 'badge-live' : 'badge-offline']">
-                  {{ c.status === 'Working' ? '直播中' : '离线' }}
-                </span>
-              </td>
-              <td>
-                <div class="cell-actions">
-                  <button class="btn btn-ghost btn-sm" @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
-                  <button class="btn btn-danger btn-sm" @click="del(c.id)">删除</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <template v-else>
+      <!-- Desktop table -->
+      <div class="card desktop-only">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>频道名称</th>
+                <th>直播地址</th>
+                <th>状态</th>
+                <th style="width:180px">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="c in channels" :key="c.id">
+                <td><span class="cell-name">{{ c.name }}</span></td>
+                <td><span class="cell-url">{{ c.url }}</span></td>
+                <td>
+                  <span :class="['badge', c.status === 'Working' ? 'badge-live' : 'badge-offline']">
+                    {{ c.status === 'Working' ? '直播中' : '离线' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="cell-actions">
+                    <button class="btn btn-ghost btn-sm" @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
+                    <button class="btn btn-danger btn-sm" @click="del(c.id)">删除</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
 
-    <!-- Mobile cards -->
-    <div v-if="channels.length" class="mobile-only channel-cards">
-      <div v-for="c in channels" :key="c.id" class="card channel-card">
-        <div class="channel-card-top">
-          <span class="cell-name">{{ c.name }}</span>
-          <span :class="['badge', c.status === 'Working' ? 'badge-live' : 'badge-offline']">
-            {{ c.status === 'Working' ? '直播中' : '离线' }}
-          </span>
-        </div>
-        <div class="channel-card-url">{{ c.url }}</div>
-        <div class="cell-actions">
-          <button class="btn btn-ghost btn-sm" @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
-          <button class="btn btn-danger btn-sm" @click="del(c.id)">删除</button>
+      <!-- Mobile cards -->
+      <div class="mobile-only channel-cards">
+        <div v-for="c in channels" :key="c.id" class="card channel-card">
+          <div class="channel-card-top">
+            <span class="cell-name">{{ c.name }}</span>
+            <span :class="['badge', c.status === 'Working' ? 'badge-live' : 'badge-offline']">
+              {{ c.status === 'Working' ? '直播中' : '离线' }}
+            </span>
+          </div>
+          <div class="channel-card-url">{{ c.url }}</div>
+          <div class="cell-actions">
+            <button class="btn btn-ghost btn-sm" @click="pause(c.id)">{{ c.paused ? '恢复' : '暂停' }}</button>
+            <button class="btn btn-danger btn-sm" @click="del(c.id)">删除</button>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
 
     <div v-if="showAdd" class="modal-overlay" @click.self="showAdd = false">
       <div class="modal-box">
