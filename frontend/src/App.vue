@@ -22,27 +22,27 @@
       </div>
       <nav>
         <router-link to="/" class="nav-item" exact-active-class="active" @click="sidebarOpen = false">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/></svg>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
           <span>录播管理</span>
         </router-link>
         <router-link to="/templates" class="nav-item" exact-active-class="active" @click="sidebarOpen = false">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"/></svg>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><path d="M12 4v12M8 8l4-4 4 4"/></svg>
           <span>上传模板</span>
         </router-link>
         <router-link to="/videos" class="nav-item" exact-active-class="active" @click="sidebarOpen = false">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm12.553-1.106A1 1 0 0014 5.882v6.236a1 1 0 001.447.894l4-2a1 1 0 000-1.789l-4-2.236z"/></svg>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg>
           <span>视频列表</span>
         </router-link>
         <router-link to="/files" class="nav-item" exact-active-class="active" @click="sidebarOpen = false">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"/><path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"/></svg>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
           <span>文件管理</span>
         </router-link>
         <router-link to="/users" class="nav-item" exact-active-class="active" @click="sidebarOpen = false">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z"/></svg>
           <span>账号管理</span>
         </router-link>
         <router-link to="/config" class="nav-item" exact-active-class="active" @click="sidebarOpen = false">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           <span>系统配置</span>
         </router-link>
       </nav>
@@ -114,30 +114,30 @@ body {
 /* ===== Shared Components ===== */
 
 /* -- Page -- */
-.page { padding:40px 48px; max-width:1400px; margin:0 auto; min-height:100vh; }
-.page-header { margin-bottom:36px; }
-.page-header-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:36px; gap:16px; flex-wrap:wrap; }
-.page-title { font-size:28px; font-weight:800; color:var(--c-text-1); letter-spacing:-.5px; line-height:1.2; }
-.page-subtitle { font-size:14px; color:var(--c-text-3); margin-top:6px; }
+.page { padding:40px 48px; max-width:1200px; margin:0 auto; min-height:100vh; width:100%; }
+.page-header { margin-bottom:32px; }
+.page-header-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; gap:16px; flex-wrap:wrap; }
+.page-title { font-size:24px; font-weight:700; color:var(--c-text-1); letter-spacing:-.3px; line-height:1.3; }
+.page-subtitle { font-size:13px; color:var(--c-text-3); margin-top:4px; letter-spacing:.1px; }
 @media (max-width:768px) {
   .page { padding:24px 16px; min-height:calc(100vh - 56px); }
   .page-header { margin-bottom:24px; }
   .page-header-row { margin-bottom:24px; }
-  .page-title { font-size:22px; }
+  .page-title { font-size:20px; }
 }
 @media (min-width:769px) and (max-width:1024px) {
   .page { padding:32px 28px; }
 }
 
 /* -- Card -- */
-.card { background:var(--c-bg-card); backdrop-filter:blur(16px); border:1px solid var(--c-border); border-radius:var(--radius-lg); overflow:hidden; transition:border-color .2s var(--ease), box-shadow .2s var(--ease); }
-.card:hover { border-color:var(--c-border-hover); }
+.card { background:var(--c-bg-card); backdrop-filter:blur(16px); border:1px solid var(--c-border); border-radius:var(--radius); overflow:hidden; transition:border-color .2s var(--ease), box-shadow .2s var(--ease); }
+.card:hover { border-color:var(--c-border-hover); box-shadow:0 2px 12px rgba(0,0,0,.15); }
 
 /* -- Table -- */
 .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
 table { width:100%; border-collapse:collapse; min-width:500px; }
-th { background:rgba(0,0,0,.3); padding:14px 24px; text-align:left; font-weight:600; color:var(--c-text-3); font-size:11px; text-transform:uppercase; letter-spacing:1px; white-space:nowrap; }
-td { padding:18px 24px; border-top:1px solid var(--c-border); color:var(--c-text-2); font-size:14px; }
+th { background:rgba(255,255,255,.02); padding:12px 24px; text-align:left; font-weight:600; color:var(--c-text-3); font-size:11px; text-transform:uppercase; letter-spacing:.8px; white-space:nowrap; }
+td { padding:16px 24px; border-top:1px solid var(--c-border); color:var(--c-text-2); font-size:14px; }
 tbody tr { transition:background .15s var(--ease); }
 tbody tr:hover { background:rgba(99,102,241,.04); }
 @media (max-width:768px) {
@@ -150,8 +150,8 @@ tbody tr:hover { background:rgba(99,102,241,.04); }
 .btn:active { transform:scale(.97); }
 .btn:disabled { opacity:.4; pointer-events:none; }
 
-.btn-primary { background:var(--c-accent); color:#fff; padding:10px 20px; box-shadow:0 1px 2px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.1); }
-.btn-primary:hover { background:var(--c-accent-hover); box-shadow:0 4px 12px var(--c-accent-glow); }
+.btn-primary { background:var(--c-accent); color:#fff; padding:10px 20px; box-shadow:0 1px 3px rgba(0,0,0,.2), 0 0 0 1px rgba(99,102,241,.3); }
+.btn-primary:hover { background:var(--c-accent-hover); box-shadow:0 4px 16px var(--c-accent-glow), 0 0 0 1px rgba(129,140,248,.4); }
 
 .btn-ghost { background:transparent; color:var(--c-text-2); padding:10px 20px; border:1px solid var(--c-border); }
 .btn-ghost:hover { background:rgba(255,255,255,.04); border-color:var(--c-border-hover); color:var(--c-text-1); }
@@ -205,14 +205,14 @@ tbody tr:hover { background:rgba(99,102,241,.04); }
 .spinner { width:36px; height:36px; border:3px solid var(--c-border); border-top-color:var(--c-accent); border-radius:50%; animation:spin .7s linear infinite; margin-bottom:16px; }
 @keyframes spin { to{transform:rotate(360deg)} }
 .state-text { color:var(--c-text-3); font-size:14px; }
-.empty-box { text-align:center; padding:80px 40px; border:1.5px dashed rgba(99,102,241,.15); border-radius:var(--radius-lg); background:rgba(99,102,241,.02); }
-.empty-icon { font-size:56px; margin-bottom:16px; opacity:.5; }
-.empty-title { font-size:18px; font-weight:700; color:var(--c-text-1); margin-bottom:8px; }
-.empty-desc { color:var(--c-text-3); font-size:14px; margin-bottom:28px; }
+.empty-box { text-align:center; padding:72px 40px; border:1px solid var(--c-border); border-radius:var(--radius-lg); background:var(--c-bg-card); }
+.empty-icon { width:56px; height:56px; margin:0 auto 20px; border-radius:14px; background:rgba(99,102,241,.08); color:var(--c-accent); display:flex; align-items:center; justify-content:center; }
+.empty-icon svg { width:26px; height:26px; }
+.empty-title { font-size:16px; font-weight:700; color:var(--c-text-1); margin-bottom:6px; }
+.empty-desc { color:var(--c-text-3); font-size:13px; margin-bottom:24px; line-height:1.6; }
 @media (max-width:768px) {
   .empty-box { padding:48px 20px; }
-  .empty-icon { font-size:40px; }
-  .empty-title { font-size:16px; }
+  .empty-title { font-size:15px; }
 }
 
 /* -- Scrollbar -- */
@@ -261,11 +261,11 @@ tbody tr:hover { background:rgba(99,102,241,.04); }
 }
 .logo-mark {
   width:32px; height:32px;
-  background:linear-gradient(135deg, var(--c-accent) 0%, #a78bfa 100%);
-  border-radius:10px;
+  background:linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+  border-radius:9px;
   display:flex; align-items:center; justify-content:center;
-  font-size:16px; font-weight:800; color:#fff;
-  box-shadow:0 2px 8px var(--c-accent-glow);
+  font-size:15px; font-weight:800; color:#fff;
+  box-shadow:0 2px 10px rgba(99,102,241,.3);
 }
 .logo-text {
   font-size:18px; font-weight:800; color:var(--c-text-1);
@@ -282,13 +282,13 @@ nav { padding:12px 8px; flex:1; overflow-y:auto; }
   transition:all .15s var(--ease);
   position:relative;
 }
-.nav-icon { width:18px; height:18px; flex-shrink:0; }
+.nav-icon { width:20px; height:20px; flex-shrink:0; opacity:.8; }
 .nav-item:hover { color:var(--c-text-2); background:rgba(255,255,255,.04); }
 .nav-item.active {
   color:var(--c-text-1); background:rgba(99,102,241,.1);
   font-weight:600;
 }
-.nav-item.active .nav-icon { color:var(--c-accent); }
+.nav-item.active .nav-icon { color:var(--c-accent); opacity:1; }
 
 .sidebar-footer {
   padding:16px 20px;
@@ -299,6 +299,7 @@ nav { padding:12px 8px; flex:1; overflow-y:auto; }
 .main-content {
   flex:1; overflow-y:auto; overflow-x:hidden;
   background:var(--c-bg);
+  display:flex; flex-direction:column;
 }
 
 /* ===== Responsive ===== */

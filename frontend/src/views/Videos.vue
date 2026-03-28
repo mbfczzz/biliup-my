@@ -8,7 +8,7 @@
     <div v-if="loading" class="state-box"><div class="spinner"></div><p class="state-text">加载中...</p></div>
 
     <div v-else-if="!videos.length" class="empty-box">
-      <div class="empty-icon">📹</div>
+      <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg></div>
       <h3 class="empty-title">还没有视频</h3>
       <p class="empty-desc">录制完成后的视频文件会显示在这里</p>
     </div>

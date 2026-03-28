@@ -14,7 +14,7 @@
     <div v-if="loading" class="state-box"><div class="spinner"></div><p class="state-text">加载中...</p></div>
 
     <div v-else-if="!users.length" class="empty-box">
-      <div class="empty-icon">👤</div>
+      <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4z"/></svg></div>
       <h3 class="empty-title">还没有添加账号</h3>
       <p class="empty-desc">扫码登录 B 站账号以上传视频</p>
       <button class="btn btn-primary" @click="showLogin = true">添加第一个账号</button>
@@ -84,9 +84,9 @@ onMounted(load)
 </script>
 
 <style scoped>
-.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap:12px; }
-.user-card { padding:20px 24px; display:flex; justify-content:space-between; align-items:center; }
-.user-name { font-size:15px; font-weight:600; color:var(--c-text-1); margin-bottom:4px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap:14px; }
+.user-card { padding:18px 22px; display:flex; justify-content:space-between; align-items:center; }
+.user-name { font-size:14px; font-weight:600; color:var(--c-text-1); margin-bottom:3px; }
 .user-id { font-size:12px; color:var(--c-text-3); font-family:var(--font-mono); }
 .qr-body { display:flex; justify-content:center; }
 .qr-wrap { text-align:center; }

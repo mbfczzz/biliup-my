@@ -17,7 +17,7 @@
     </div>
 
     <div v-else-if="!channels.length" class="empty-box">
-      <div class="empty-icon">📺</div>
+      <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M10 10l4-2v4l-4-2z" fill="currentColor" stroke="none"/></svg></div>
       <h3 class="empty-title">还没有添加频道</h3>
       <p class="empty-desc">点击"添加频道"按钮开始录制 Twitch 直播</p>
       <button class="btn btn-primary" @click="showAdd = true">添加第一个频道</button>

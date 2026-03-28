@@ -6,7 +6,7 @@
     </div>
 
     <div v-if="!streamers.length" class="empty-box">
-      <div class="empty-icon">📁</div>
+      <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg></div>
       <h3 class="empty-title">暂无频道</h3>
       <p class="empty-desc">添加录制频道后即可在此查看文件</p>
     </div>

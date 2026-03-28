@@ -108,8 +108,8 @@ onMounted(load)
 <style scoped>
 .config-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap:16px; margin-bottom:24px; }
 .config-card { padding:24px; }
-.config-icon { width:36px; height:36px; border-radius:10px; background:rgba(99,102,241,.1); color:var(--c-accent); display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
-.config-title { font-size:16px; font-weight:700; color:var(--c-text-1); margin-bottom:20px; }
+.config-icon { width:40px; height:40px; border-radius:10px; background:rgba(99,102,241,.08); color:var(--c-accent); display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
+.config-title { font-size:15px; font-weight:700; color:var(--c-text-1); margin-bottom:18px; letter-spacing:-.1px; }
 .config-fields { display:flex; flex-direction:column; gap:16px; }
 .config-fields .form-group { margin-bottom:0; }
 

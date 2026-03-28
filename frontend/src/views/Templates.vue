@@ -14,7 +14,7 @@
     <div v-if="loading" class="state-box"><div class="spinner"></div><p class="state-text">加载中...</p></div>
 
     <div v-else-if="!templates.length" class="empty-box">
-      <div class="empty-icon">📤</div>
+      <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><path d="M12 4v12M8 8l4-4 4 4"/></svg></div>
       <h3 class="empty-title">还没有上传模板</h3>
       <p class="empty-desc">创建模板来配置视频上传参数</p>
       <button class="btn btn-primary" @click="showAdd = true">创建第一个模板</button>
@@ -88,12 +88,12 @@ onMounted(load)
 </script>
 
 <style scoped>
-.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(320px, 100%), 1fr)); gap:16px; }
-.tpl-card { padding:24px; }
-.tpl-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--c-border); }
-.tpl-name { font-size:16px; font-weight:700; color:var(--c-text-1); margin:0; }
-.tpl-fields { display:flex; flex-direction:column; gap:10px; }
-.tpl-field { display:flex; gap:8px; font-size:13px; }
-.tpl-label { color:var(--c-text-3); min-width:48px; font-weight:500; }
-.tpl-value { color:var(--c-text-2); }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap:14px; }
+.tpl-card { padding:22px 24px; }
+.tpl-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--c-border); }
+.tpl-name { font-size:15px; font-weight:700; color:var(--c-text-1); margin:0; }
+.tpl-fields { display:flex; flex-direction:column; gap:8px; }
+.tpl-field { display:flex; gap:10px; font-size:13px; align-items:baseline; }
+.tpl-label { color:var(--c-text-3); min-width:36px; font-weight:500; flex-shrink:0; }
+.tpl-value { color:var(--c-text-2); word-break:break-all; }
 </style>
