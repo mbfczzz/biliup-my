@@ -1,5 +1,6 @@
 use crate::{ReqwestClientBuilderExt, retry};
 use rand::Rng;
+use reqwest::dns::{Addrs, Name, Resolve, Resolving};
 use reqwest::header::HeaderMap;
 use reqwest::{Response, header};
 use reqwest_cookie_store::CookieStoreMutex;
@@ -8,6 +9,22 @@ use reqwest_retry::RetryTransientMiddleware;
 use reqwest_retry::policies::ExponentialBackoff;
 use std::sync::Arc;
 use std::time::Duration;
+
+/// DNS resolver that filters out IPv6 addresses to avoid IPv6 connection timeouts.
+#[derive(Debug)]
+struct Ipv4OnlyResolver;
+
+impl Resolve for Ipv4OnlyResolver {
+    fn resolve(&self, name: Name) -> Resolving {
+        Box::pin(async move {
+            let addrs = tokio::net::lookup_host((name.as_str(), 0))
+                .await?
+                .filter(|addr| addr.is_ipv4())
+                .collect::<Vec<_>>();
+            Ok(Box::new(addrs.into_iter()) as Addrs)
+        })
+    }
+}
 
 #[derive(Debug, Clone)]
 pub struct StatelessClient {
@@ -22,7 +39,8 @@ impl StatelessClient {
             .user_agent("Mozilla/5.0 (X11; Linux x86_64; rv:60.1) Gecko/20100101 Firefox/60.1")
             .default_headers(headers)
             // .timeout(Duration::new(60, 0))
-            .connect_timeout(Duration::from_secs(60))
+            .connect_timeout(Duration::from_secs(10))
+            .dns_resolver(Arc::new(Ipv4OnlyResolver))
             .build()
             .unwrap();
         let retry_policy = ExponentialBackoff::builder().build_with_max_retries(5);
@@ -75,7 +93,8 @@ impl StatefulClient {
                     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/63.0.3239.108",
                 )
                 .default_headers(headers)
-                .connect_timeout(Duration::from_secs(60))
+                .connect_timeout(Duration::from_secs(10))
+                .dns_resolver(Arc::new(Ipv4OnlyResolver))
                 // .timeout(Duration::new(60, 0))
                 .build()
                 .unwrap(),
