@@ -460,8 +460,14 @@ impl Credential {
                     });
                 }
                 ResponseData { code: 86039, .. } => {
-                    // 二维码尚未确认;
-                    // form["ts"] = Value::from(SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs());
+                    // 二维码尚未确认，继续轮询
+                }
+                ResponseData { code: 86038, .. } => {
+                    // 二维码已过期
+                    break Err(Kind::Custom("二维码已过期，请重新获取".to_string()));
+                }
+                ResponseData { code: 86090, .. } => {
+                    // 已扫码未确认，继续轮询
                 }
                 _ => {
                     break Err(Kind::Custom(format!("{res:#?}")));

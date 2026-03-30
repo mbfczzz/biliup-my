@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
   baseURL: '/v1',
-  timeout: 10000
+  timeout: 30000
 })
 
 export default {
@@ -30,7 +30,7 @@ export default {
 
   // 登录
   getQrcode: () => api.get('/get_qrcode'),
-  loginByQrcode: (data) => api.post('/login_by_qrcode', data),
+  loginByQrcode: (data, signal) => api.post('/login_by_qrcode', data, { timeout: 310000, signal }),
 
   // 视频
   getVideos: () => api.get('/videos'),

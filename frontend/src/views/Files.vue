@@ -15,9 +15,9 @@
       <div v-for="s in streamers" :key="s.id" class="section card">
         <div class="section-head" @click="toggle(s.id)">
           <div class="section-left">
-            <div class="section-avatar">{{ (s.name || '?')[0].toUpperCase() }}</div>
+            <div class="section-avatar">{{ (s.remark || '?')[0].toUpperCase() }}</div>
             <div class="section-info">
-              <span class="section-name">{{ s.name }}</span>
+              <span class="section-name">{{ s.remark }}</span>
               <span v-if="files[s.id]" class="section-count">{{ files[s.id].length }} 个文件</span>
             </div>
           </div>

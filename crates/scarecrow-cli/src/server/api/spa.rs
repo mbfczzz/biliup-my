@@ -33,8 +33,12 @@ pub async fn static_handler(uri: Uri) -> impl IntoResponse {
             ([(header::CONTENT_TYPE, mime.as_ref())], content.data).into_response()
         }
         None => {
-            // 文件不存在，返回404
-            not_found().await
+            // SPA路由回退：非静态资源路径返回index.html
+            if path.contains('.') {
+                not_found().await
+            } else {
+                index_html().await
+            }
         }
     }
 }

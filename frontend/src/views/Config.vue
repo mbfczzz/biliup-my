@@ -2,7 +2,7 @@
   <div class="page">
     <div class="page-header">
       <h1 class="page-title">系统设置</h1>
-      <p class="page-subtitle">配置下载路径、录制参数和上传行为</p>
+      <p class="page-subtitle">配置录制参数、上传线路和全局行为</p>
     </div>
 
     <div v-if="loading" class="state-box"><div class="spinner"></div><p class="state-text">加载配置中...</p></div>
@@ -23,57 +23,102 @@
           <div class="section-body">
             <div class="section-body-inner">
               <div class="section-body-content">
-              <!-- 路径配置 -->
-              <template v-if="section.key === 'path'">
-                <div class="form-group">
-                  <label class="form-label">下载保存路径</label>
-                  <input class="form-input" v-model="config.download_path" placeholder="/path/to/downloads">
-                  <p class="form-hint">录制的视频文件保存位置</p>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">上传临时路径</label>
-                  <input class="form-input" v-model="config.upload_path" placeholder="/path/to/uploads">
-                  <p class="form-hint">上传前的临时文件存储位置</p>
-                </div>
-              </template>
               <!-- 录制配置 -->
               <template v-if="section.key === 'record'">
                 <div class="form-group">
-                  <label class="form-label">视频质量</label>
-                  <select class="form-select" v-model="config.quality">
-                    <option value="best">最佳质量</option>
-                    <option value="high">高质量</option>
-                    <option value="medium">中等质量</option>
-                    <option value="low">低质量</option>
+                  <label class="form-label">下载器</label>
+                  <select class="form-select" v-model="config.downloader">
+                    <option :value="null">默认</option>
+                    <option value="streamlink">Streamlink</option>
+                    <option value="ffmpeg">FFmpeg</option>
+                    <option value="stream-gears">Stream-gears</option>
                   </select>
+                  <p class="form-hint">录制使用的下载器类型</p>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">文件格式</label>
-                  <select class="form-select" v-model="config.format">
-                    <option value="mp4">MP4</option>
-                    <option value="flv">FLV</option>
-                    <option value="mkv">MKV</option>
-                  </select>
+                  <label class="form-label">文件大小限制 (字节)</label>
+                  <input class="form-input" type="number" v-model.number="config.file_size" placeholder="8388608">
+                  <p class="form-hint">单个录制文件的最大大小</p>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">分段时间</label>
+                  <input class="form-input" v-model="config.segment_time" placeholder="00:00:00">
+                  <p class="form-hint">录制分段时长，格式 HH:MM:SS</p>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">文件名前缀</label>
+                  <input class="form-input" v-model="config.filename_prefix" placeholder="可选">
                 </div>
               </template>
               <!-- 上传配置 -->
               <template v-if="section.key === 'upload'">
                 <div class="form-group">
+                  <label class="form-label">上传线路</label>
+                  <select class="form-select" v-model="config.lines">
+                    <option value="AUTO">自动</option>
+                    <option value="alia">阿里云 (alia)</option>
+                    <option value="bda2">百度 (bda2)</option>
+                    <option value="bldsa">B站 (bldsa)</option>
+                    <option value="qn">七牛 (qn)</option>
+                    <option value="tx">腾讯 (tx)</option>
+                    <option value="txa">腾讯加速 (txa)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">上传线程数</label>
+                  <input class="form-input" type="number" v-model.number="config.threads" min="1" max="16">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">上传器</label>
+                  <select class="form-select" v-model="config.uploader">
+                    <option :value="null">默认</option>
+                    <option value="bili_web">bili_web</option>
+                    <option value="Noop">Noop (不上传)</option>
+                  </select>
+                </div>
+              </template>
+              <!-- 高级配置 -->
+              <template v-if="section.key === 'advanced'">
+                <div class="form-group">
+                  <label class="form-label">延迟时间 (秒)</label>
+                  <input class="form-input" type="number" v-model.number="config.delay" placeholder="10">
+                  <p class="form-hint">录制完成后等待上传的延迟</p>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">事件循环间隔 (秒)</label>
+                  <input class="form-input" type="number" v-model.number="config.event_loop_interval" placeholder="40">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">检测间隔 (秒)</label>
+                  <input class="form-input" type="number" v-model.number="config.checker_sleep" placeholder="120">
+                  <p class="form-hint">检查直播状态的时间间隔</p>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">过滤阈值 (MB)</label>
+                  <input class="form-input" type="number" v-model.number="config.filtering_threshold" placeholder="2">
+                  <p class="form-hint">小于该大小的文件将被过滤</p>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">日志级别</label>
+                  <select class="form-select" v-model="config.loggers_level">
+                    <option :value="null">默认</option>
+                    <option value="DEBUG">DEBUG</option>
+                    <option value="INFO">INFO</option>
+                    <option value="WARNING">WARNING</option>
+                    <option value="ERROR">ERROR</option>
+                  </select>
+                </div>
+                <div class="form-group">
                   <label class="toggle-wrap">
                     <span class="toggle-text">
-                      <span class="toggle-label">自动上传</span>
-                      <span class="toggle-hint">录制完成后自动上传到 B 站</span>
+                      <span class="toggle-label">使用直播封面</span>
+                      <span class="toggle-hint">自动下载直播封面作为视频封面</span>
                     </span>
                     <label class="toggle">
-                      <input type="checkbox" v-model="config.auto_upload">
+                      <input type="checkbox" v-model="config.use_live_cover">
                       <span class="toggle-track"></span>
                     </label>
                   </label>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">并发上传数</label>
-                  <input class="form-input" type="number" v-model.number="config.concurrent_uploads" min="1" max="5">
-                  <p class="form-hint">同时上传的文件数量 (1-5)</p>
                 </div>
               </template>
               </div>
@@ -101,13 +146,13 @@ import { ref, onMounted } from 'vue'
 import api from '../api'
 
 const loading = ref(true)
-const config = ref({ download_path: '', upload_path: '', quality: 'best', format: 'mp4', auto_upload: true, concurrent_uploads: 3 })
+const config = ref({})
 const expanded = ref(new Set())
 
 const sections = [
-  { key: 'path', title: '路径配置', desc: '设置文件下载和临时存储路径', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>' },
-  { key: 'record', title: '录制配置', desc: '视频质量和文件格式偏好', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>' },
-  { key: 'upload', title: '上传配置', desc: '自动上传和并发数设置', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><path d="M12 4v12M8 8l4-4 4 4"/></svg>' },
+  { key: 'record', title: '录制配置', desc: '下载器、分段和文件参数', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>' },
+  { key: 'upload', title: '上传配置', desc: '上传线路、线程数和上传器', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><path d="M12 4v12M8 8l4-4 4 4"/></svg>' },
+  { key: 'advanced', title: '高级设置', desc: '延迟、检测间隔和日志级别', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>' },
 ]
 
 const toggle = (key) => {
@@ -117,7 +162,7 @@ const toggle = (key) => {
 }
 
 const load = async () => {
-  try { loading.value = true; const { data } = await api.getConfig(); if (data) config.value = { ...config.value, ...data } }
+  try { loading.value = true; const { data } = await api.getConfig(); if (data) config.value = data }
   catch (e) { console.error('加载配置失败:', e) }
   finally { loading.value = false }
 }

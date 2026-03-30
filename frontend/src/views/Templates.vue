@@ -103,7 +103,7 @@
             <div class="row-ctrl">
               <select class="form-input" v-model="form.user_cookie">
                 <option value="">未选择</option>
-                <option v-for="u in users" :key="u.id" :value="String(u.id)">{{ u.name || u.id }}</option>
+                <option v-for="u in users" :key="u.id" :value="u.value">{{ u.name || u.value }}</option>
               </select>
             </div>
           </div>
@@ -291,9 +291,9 @@ const addTag = () => {
 }
 const removeTag = (i) => tagsList.value.splice(i, 1)
 
-const getUserName = (id) => {
-  const u = users.value.find(u => String(u.id) === String(id))
-  return u ? (u.name || u.id) : id
+const getUserName = (cookie) => {
+  const u = users.value.find(u => u.value === cookie)
+  return u ? (u.name || u.value) : cookie
 }
 
 const openAdd = () => {
@@ -334,6 +334,9 @@ const buildPayload = () => {
   p.charging_pay = Number(p.charging_pay) || 0
   p.no_reprint = Number(p.no_reprint) || 0
   p.is_only_self = Number(p.is_only_self) || 0
+  p.up_selection_reply = p.up_selection_reply ? 1 : 0
+  p.up_close_reply = p.up_close_reply ? 1 : 0
+  p.up_close_danmu = p.up_close_danmu ? 1 : 0
   if (enableDtime.value && dtimeStr.value) {
     p.dtime = Math.floor(new Date(dtimeStr.value).getTime() / 1000)
   } else { p.dtime = null }

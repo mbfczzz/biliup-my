@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import QRCode from 'qrcode'
 import api from '../api'
 
@@ -104,24 +104,35 @@ const loadQrcode = async () => {
       pollLogin(data)
     }
   }
-  catch (e) { alert('获取二维码失败: ' + (e.response?.data?.message || e.message)) }
+  catch (e) {
+    console.error('QR code error:', e, e.response?.status, e.response?.data)
+    alert('获取二维码失败: ' + JSON.stringify(e.response?.data || e.message))
+  }
   finally { qrLoading.value = false }
 }
 
-let pollTimer = null
+let pollController = null
+
 const pollLogin = async (qrData) => {
-  if (pollTimer) clearInterval(pollTimer)
-  pollTimer = setInterval(async () => {
-    try {
-      const { data } = await api.loginByQrcode(qrData)
-      if (data.code === 0) {
-        clearInterval(pollTimer)
-        pollTimer = null
-        showLogin.value = false
-        await load()
-      }
-    } catch {}
-  }, 2000)
+  if (pollController) pollController.abort()
+  pollController = new AbortController()
+  try {
+    const { data } = await api.loginByQrcode(qrData, pollController.signal)
+    if (data.code === 0) {
+      showLogin.value = false
+      await load()
+    }
+  } catch (e) {
+    if (e.name === 'CanceledError' || e.code === 'ERR_CANCELED') return
+    console.error('Login error:', e)
+    // 二维码过期或其他错误，自动重新获取二维码
+    if (showLogin.value) {
+      qrcode.value = ''
+      await loadQrcode()
+    }
+  } finally {
+    pollController = null
+  }
 }
 
 const del = async (id) => {
@@ -132,7 +143,10 @@ const del = async (id) => {
 
 watch(showLogin, v => {
   if (v) { loadQrcode() }
-  else { qrcode.value = ''; if (pollTimer) { clearInterval(pollTimer); pollTimer = null } }
+  else { qrcode.value = ''; if (pollController) { pollController.abort(); pollController = null } }
+})
+onBeforeUnmount(() => {
+  if (pollController) { pollController.abort(); pollController = null }
 })
 onMounted(load)
 </script>

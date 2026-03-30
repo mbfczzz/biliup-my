@@ -46,10 +46,10 @@
         <div v-for="c in channels" :key="c.id" :class="['channel-card card', { 'is-live': c.status === 'Working' }]">
           <div class="channel-header">
             <div class="channel-avatar">
-              <span>{{ (c.name || '?')[0].toUpperCase() }}</span>
+              <span>{{ (c.remark || '?')[0].toUpperCase() }}</span>
             </div>
             <div class="channel-info">
-              <div class="channel-name">{{ c.name }}</div>
+              <div class="channel-name">{{ c.remark }}</div>
               <div class="channel-url">{{ c.url }}</div>
             </div>
             <span :class="['badge', c.status === 'Working' ? 'badge-live' : 'badge-offline']">
@@ -61,8 +61,8 @@
           </div>
           <div class="channel-actions">
             <button class="btn btn-ghost btn-sm" @click="pause(c.id)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path v-if="c.paused" d="M5 3l14 9-14 9V3z"/><template v-else><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></template></svg>
-              {{ c.paused ? '恢复' : '暂停' }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path v-if="c.status === 'Pause'" d="M5 3l14 9-14 9V3z"/><template v-else><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></template></svg>
+              {{ c.status === 'Pause' ? '恢复' : '暂停' }}
             </button>
             <button class="btn btn-danger btn-sm" @click="del(c.id)">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
@@ -82,7 +82,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label">频道名称</label>
-            <input class="form-input" v-model="form.name" placeholder="例如：某某主播" @keyup.enter="add">
+            <input class="form-input" v-model="form.remark" placeholder="例如：某某主播" @keyup.enter="add">
           </div>
           <div class="form-group">
             <label class="form-label">直播地址</label>
@@ -92,7 +92,7 @@
         </div>
         <div class="modal-foot">
           <button class="btn btn-ghost" @click="showAdd = false">取消</button>
-          <button class="btn btn-primary" @click="add" :disabled="!form.name || !form.url">确定</button>
+          <button class="btn btn-primary" @click="add" :disabled="!form.remark || !form.url">确定</button>
         </div>
       </div>
     </div>
@@ -106,7 +106,7 @@ import api from '../api'
 const channels = ref([])
 const loading = ref(true)
 const showAdd = ref(false)
-const form = ref({ name: '', url: '' })
+const form = ref({ remark: '', url: '' })
 
 const load = async () => {
   try {
@@ -122,11 +122,11 @@ const load = async () => {
 }
 
 const add = async () => {
-  if (!form.value.name || !form.value.url) return
+  if (!form.value.remark || !form.value.url) return
   try {
     await api.addStreamer(form.value)
     showAdd.value = false
-    form.value = { name: '', url: '' }
+    form.value = { remark: '', url: '' }
     await load()
   } catch (error) {
     alert('添加失败: ' + (error.response?.data?.message || error.message))

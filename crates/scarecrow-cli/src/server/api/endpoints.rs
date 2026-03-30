@@ -426,8 +426,10 @@ pub async fn delete_user_endpoint(
     Ok(Json(()))
 }
 
+static CREDENTIAL: std::sync::LazyLock<Credential> = std::sync::LazyLock::new(|| Credential::new(None));
+
 pub async fn get_qrcode() -> Result<Json<serde_json::Value>, Response> {
-    let qrcode = Credential::new(None)
+    let qrcode = CREDENTIAL
         .get_qrcode()
         .await
         .change_context(AppError::Unknown)
@@ -436,11 +438,12 @@ pub async fn get_qrcode() -> Result<Json<serde_json::Value>, Response> {
 }
 
 pub async fn login_by_qrcode(
+    State(pool): State<ConnectionPool>,
     Json(value): Json<serde_json::Value>,
 ) -> Result<Json<serde_json::Value>, Response> {
     let info = tokio::time::timeout(
         Duration::from_secs(300),
-        Credential::new(None).login_by_qrcode(value),
+        CREDENTIAL.login_by_qrcode(value),
         // std::future::pending::<AppResult<LoginInfo>>(),
     )
     .await
@@ -453,6 +456,9 @@ pub async fn login_by_qrcode(
     let mid = info.token_info.mid;
     let filename = format!("data/{}.json", mid);
 
+    // 确保data目录存在
+    let _ = fs::create_dir_all("data").await;
+
     let mut file = fs::File::create(&filename)
         .await
         .change_context(AppError::Unknown)
@@ -462,7 +468,19 @@ pub async fn login_by_qrcode(
         .change_context(AppError::Unknown)
         .map_err(report_to_response)?;
 
-    Ok(Json(json!({ "filename": filename })))
+    // 将凭证信息保存到数据库
+    let platform = info.platform.as_deref().unwrap_or("bilibili");
+    let insert = InsertConfiguration {
+        key: "bilibili-cookies".to_string(),
+        value: filename.clone(),
+    };
+    insert
+        .insert(&pool)
+        .await
+        .change_context(AppError::Unknown)
+        .map_err(report_to_response)?;
+
+    Ok(Json(json!({ "code": 0, "filename": filename })))
 }
 
 pub async fn get_videos() -> Result<Json<Vec<serde_json::Value>>, Response> {
