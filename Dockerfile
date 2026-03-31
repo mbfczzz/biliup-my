@@ -30,7 +30,7 @@ RUN set -eux; \
 	\
 	apt-get update; \
 	apt-get install -y --no-install-recommends python3-pip g++; \
-	pip3 install maturin --break-system-packages; \
+	pip3 install maturin[patchelf] --break-system-packages; \
 	if [ ! -f /scarecrow/scarecrow.spec ]; then \
 	rm -rf /scarecrow; \
 	git clone --depth 1 --branch "$branch_name" "$repo_url" /scarecrow; \
